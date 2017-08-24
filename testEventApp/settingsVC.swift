@@ -64,10 +64,8 @@ class settingsVC: UIViewController {
         
         if let user = FIRAuth.auth()?.currentUser {
             let name = user.displayName
-            let photoUrl = user.photoURL
-            //let uid = user.uid
             self.usersName.text = name
-            print("halla")
+
        
             if FBSDKAccessToken.current() != nil {
                 
