@@ -67,6 +67,7 @@ class settingsVC: UIViewController {
             let photoUrl = user.photoURL
             //let uid = user.uid
             self.usersName.text = name
+            print("halla")
        
             if FBSDKAccessToken.current() != nil {
                 
