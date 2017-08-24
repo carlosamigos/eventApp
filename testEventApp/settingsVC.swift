@@ -53,20 +53,9 @@ class settingsVC: UIViewController {
         super.viewDidLoad()
         let storage = FIRStorage.storage()
         let storageRef = storage.reference(forURL: "gs://testeventapp-cd7d2.appspot.com")
-        
-        
-        print("loading image")
-        
-        
-        
-        
-        
-        
         if let user = FIRAuth.auth()?.currentUser {
             let name = user.displayName
             self.usersName.text = name
-
-       
             if FBSDKAccessToken.current() != nil {
                 
                 let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
