@@ -270,6 +270,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         
         
     }
+    print("halla")
     
     
 
