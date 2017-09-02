@@ -70,7 +70,6 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         if var collectionIndex = feedAndGroupsCollectionView.indexPath(for: collectionCell){
             if var cellIndex = collectionCell.events.indexPath(for: eventCell){
                 //perform segue
-                
                 eventCell.profilePicture.alpha = 0
                 eventCell.title.alpha = 0
                 latestEventCell = eventCell
@@ -301,7 +300,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     
     let events = UITableView()
     
-    var eventsFromFirebase = [eventInformation]() //[eventInformation] event with creator, eventName and number of People attending
+    var eventsFromFirebase = [eventInformation]()
     var eventCells = [eventUICell2]()
     var pastEventCells = [eventUICell2]()
     
@@ -413,7 +412,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     }
     
     func setUpCell(newEventInfo: eventInformation){
-        let eventInfo = self.eventsFromFirebase[self.eventsFromFirebase.count-1]
+        let eventInfo = newEventInfo
         let group = DispatchGroup()
         group.enter()
         let eventCell = eventUICell2()
@@ -439,7 +438,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
             secondGroup.notify(queue: .main, execute: { 
                 self.events.reloadData()
             })
-            })
+        })
 
     }
     

@@ -79,7 +79,7 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         self.address.font = UIFont(name: "Helvetica-Neue", size: CGFloat(20))
         self.address.font = UIFont.systemFont(ofSize: CGFloat(20), weight: UIFontWeightThin)
         self.view.addSubview(self.address)
-        self.addressPin.image = #imageLiteral(resourceName: "geoTag0.2x")
+        //self.addressPin.image = #imageLiteral(resourceName: "geoTag0.2x")
         self.addressPin.contentMode = .scaleAspectFill
         self.view.addSubview(self.addressPin)
     }

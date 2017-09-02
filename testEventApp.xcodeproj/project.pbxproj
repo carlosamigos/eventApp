@@ -22,6 +22,7 @@
 		614235AF1DA0397F0051390F /* locationSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614235AE1DA0397F0051390F /* locationSelector.swift */; };
 		614235B11DA048430051390F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 614235B01DA048430051390F /* CoreLocation.framework */; };
 		615878361DD08D07006EE2A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 615878341DD08D07006EE2A2 /* Main.storyboard */; };
+		615B6A661F5B3D34007D7CD1 /* groupInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B6A651F5B3D34007D7CD1 /* groupInformation.swift */; };
 		615D16B11DC3DA0C001B9E6A /* groupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615D16B01DC3DA0C001B9E6A /* groupCell.swift */; };
 		615E65181DCDC547000D2264 /* segueFeedToEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615E65171DCDC547000D2264 /* segueFeedToEvent.swift */; };
 		615E651C1DCDF37A000D2264 /* eventInformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615E651B1DCDF37A000D2264 /* eventInformationVC.swift */; };
@@ -58,6 +59,7 @@
 		614235AE1DA0397F0051390F /* locationSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = locationSelector.swift; sourceTree = "<group>"; };
 		614235B01DA048430051390F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		615878351DD08D07006EE2A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		615B6A651F5B3D34007D7CD1 /* groupInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupInformation.swift; sourceTree = "<group>"; };
 		615D16B01DC3DA0C001B9E6A /* groupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupCell.swift; sourceTree = "<group>"; };
 		615E65171DCDC547000D2264 /* segueFeedToEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = segueFeedToEvent.swift; sourceTree = "<group>"; };
 		615E651B1DCDF37A000D2264 /* eventInformationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventInformationVC.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				612200451DA2FB290065E449 /* eventInformation.swift */,
 				61197EAF1DA7D0120025AAC8 /* facebookFriend.swift */,
+				615B6A651F5B3D34007D7CD1 /* groupInformation.swift */,
 			);
 			name = Models;
 			path = ..;
@@ -389,6 +392,7 @@
 			files = (
 				61312E201DA3080C00C56927 /* nameAndDescription.swift in Sources */,
 				61197EA91DA67C5E0025AAC8 /* friendsCell.swift in Sources */,
+				615B6A661F5B3D34007D7CD1 /* groupInformation.swift in Sources */,
 				614235AD1DA00E780051390F /* timeSelector.swift in Sources */,
 				616F5B231F56B0DF006DC916 /* selectFriendsToGroup.swift in Sources */,
 				61710C691DAA7EA50003BE42 /* invitePeopleTestViewController.swift in Sources */,

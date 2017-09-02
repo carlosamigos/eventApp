@@ -188,7 +188,6 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     }
 
     @IBAction func createEventButtonPressed(_ sender: AnyObject) {
-        
         let myGroup = DispatchGroup()
         let key = self.ref.child("eventInfo").childByAutoId().key
         let uid = FIRAuth.auth()?.currentUser?.uid

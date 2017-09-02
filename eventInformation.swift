@@ -34,12 +34,6 @@ class eventInformation {
         self.timeYYYYMMDDHHMM = time
         self.description = description
         self.attending = attending
-        self.weekday = weekday
-        
+        self.weekday = weekday        
     }
-    
-    
-
-
-
 }

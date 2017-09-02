@@ -58,12 +58,10 @@ class segueFeedToEvent: UIStoryboardSegue {
             destinationVC.backButton.alpha = 1
             
             
-            let totalWidthOfAddressAndPin = destinationVC.address.frame.width+destinationVC.distanceFromTitleToProfilePicture+destinationVC.addressPin.frame.width
-            
-            destinationVC.addressPin.frame = CGRect(x: UIScreen.main.bounds.width/2-totalWidthOfAddressAndPin/2-5, y: destinationVC.eventTime.frame.maxY+destinationVC.distanceFromTitleToProfilePicture, width: destinationVC.addressPin.frame.width, height: destinationVC.addressPin.frame.height)
+            let totalWidthOfAddressAndPin = destinationVC.address.frame.width
             
             
-            destinationVC.address.frame = CGRect(x: destinationVC.addressPin.frame.maxX+destinationVC.distanceFromTitleToProfilePicture, y: destinationVC.eventTime.frame.maxY+destinationVC.distanceFromTitleToProfilePicture, width: destinationVC.address.frame.width, height: destinationVC.address.frame.height)
+            destinationVC.address.frame = CGRect(x: UIScreen.main.bounds.width/2 - destinationVC.address.frame.width/2, y: destinationVC.eventTime.frame.maxY+destinationVC.distanceFromTitleToProfilePicture, width: destinationVC.address.frame.width, height: destinationVC.address.frame.height)
             destinationVC.address.sizeToFit()
             
             

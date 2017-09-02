@@ -51,17 +51,17 @@ class eventUICell2: UITableViewCell { //Currently used
             self.shown = true
         }
         
-        
         self.address = eventInfo.address
-        var indexOfNumber = 0
-        for ch in self.address.unicodeScalars {
-            if CharacterSet.decimalDigits.contains(ch){
-                break
-            }
-            indexOfNumber+=1
-        }
-        let index = self.address.index(self.address.startIndex, offsetBy: indexOfNumber)
-        self.address = self.address.substring(to: index)
+//        var indexOfNumber = 0
+//        for ch in self.address.unicodeScalars {
+//            if CharacterSet.decimalDigits.contains(ch){
+//                break
+//            }
+//            indexOfNumber+=1
+//        }
+//        indexOfNumber = 0
+//        let index = self.address.index(self.address.startIndex, offsetBy: indexOfNumber)
+//        self.address = self.address.substring(to: index)
         
         
         dateFormatter.dateStyle = DateFormatter.Style.full
