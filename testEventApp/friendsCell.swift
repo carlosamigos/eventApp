@@ -40,7 +40,6 @@ class friendsCell: UITableViewCell {  // NOT USED ANYMORE
         button.layer.cornerRadius = 90/2
         button.clipsToBounds = true
         button.titleLabel?.text = ""
-        print("haya")
         
         
     }

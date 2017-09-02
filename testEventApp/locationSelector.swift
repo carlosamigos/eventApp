@@ -64,12 +64,16 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
         
         
         geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-            if let street = placemarks![0].addressDictionary?[AnyHashable("Name")] {
-                self.addressBtn.setTitle(String(describing: street), for: UIControlState.normal)
-                self.address = String(describing: street)
+            if (error != nil){
                 
+            } else {
+                if let street = placemarks![0].addressDictionary?[AnyHashable("Name")] {
+                    self.addressBtn.setTitle(String(describing: street), for: UIControlState.normal)
+                    self.address = String(describing: street)
+                    
+                }
             }
-        })
+            })
         
         
         self.longi = center.longitude

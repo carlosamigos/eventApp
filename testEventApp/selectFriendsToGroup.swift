@@ -1,9 +1,9 @@
 //
-//  invtePeopleTestViewController.swift
+//  selectFriendsToGroup.swift
 //  testEventApp
 //
-//  Created by Carl Andreas Julsvoll on 09/10/16.
-//  Copyright © 2016 CarlTesting. All rights reserved.
+//  Created by Carl Andreas Julsvoll on 30/08/2017.
+//  Copyright © 2017 CarlTesting. All rights reserved.
 //
 
 import UIKit
@@ -11,12 +11,16 @@ import FirebaseDatabase
 import FBSDKCoreKit
 import FirebaseAuth
 
-var selectedFriends = [facebookFriend]()
-var selectedFriendsIds = [String]()
+var selectedGroupFriends = [facebookFriend]()
+var selectedGroupFriendsIds = [String]()
+var globalFilteredFriends = [facebookFriend]()
+var globalGroups = ["Gutta i trondheim","BI-schtëk","Oslojaktarane"]
+var globalFilteredGroups = [String]()
 
-
-class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UIGestureRecognizerDelegate {
-
+class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UIGestureRecognizerDelegate {
+    
+    var nameOfGroup: String!
+    var backButton: UIButton!
     
     //TODO: add that the keyboard disappears when search is clicked.
     
@@ -28,20 +32,12 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     
     @IBOutlet weak var inviteFriendsLabel: UILabel!
     
-    private var ref: FIRDatabaseReference!
+    private let ref = FIRDatabase.database().reference()
     
     let friendsString = "friends"
     let groupString = "groups"
     var currentPageString: String!
     
-    var backButton: UIButton!
-    var weekday: String = ""
-    var dateFromChooseDay: Date = Date()
-    var hourMin: String = ""
-    var titleFromPrevView: String = ""
-    var address: String = ""
-    var longi: Double = 0.0
-    var lati: Double = 0.0
     
     var friendsClassRef: friendsCustomCollectionCell = friendsCustomCollectionCell()
     var groupClassRef: groupsCustomCollectionCell = groupsCustomCollectionCell()
@@ -49,9 +45,7 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareBackButton()
         collectionV.showsHorizontalScrollIndicator = false
-        ref = FIRDatabase.database().reference()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(invitePeopleViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         collectionV.dataSource = self
@@ -65,11 +59,12 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
             layout.minimumLineSpacing = 0
         }
         collectionV.isPagingEnabled = true
-
+        
         collectionV?.register(friendsCustomCollectionCell.self, forCellWithReuseIdentifier: "friendsCustomCell")
         collectionV?.register(groupsCustomCollectionCell.self, forCellWithReuseIdentifier: "groupsCustomCell")
+        prepareBackButton()
         
-
+        
     }
     
     func prepareBackButton(){
@@ -92,7 +87,6 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         dismiss(animated: true, completion: nil)
     }
 
-  
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let width = self.view.frame.width
@@ -107,7 +101,6 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         }
     }
     
-
     
     func updateTextBtn(){
         nextBtn.titleLabel?.text = "Invite \(selectedFriends.count) friends!"
@@ -125,6 +118,8 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
+    
+    
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -160,7 +155,6 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         })
     }
     
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if(currentPageString == friendsString){
             globalFilteredFriends = []
@@ -187,20 +181,20 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         }
     }
 
+    
     @IBAction func createEventButtonPressed(_ sender: AnyObject) {
         
+        //add something to do when in offline mode
+        
         let myGroup = DispatchGroup()
-        let key = self.ref.child("eventInfo").childByAutoId().key
+        let key = self.ref.child("groupInfo").childByAutoId().key
         let uid = FIRAuth.auth()?.currentUser?.uid
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = ""
-        let convertedDate = dateFormatter.string(from: dateFromChooseDay)
-        let postEventInfo = ["name":self.titleFromPrevView as String,"creator":uid!,"time":"\(convertedDate) \(self.hourMin)","weekday": self.weekday,"address": address, "latitute": lati, "longitude": longi,"numberAttending": 1, "description": "Description of the event"] as [String : Any]
+        var postGroupMembers = [uid!:"IN"] as [String : Any]
+        let postGroupInfo = ["groupName":self.nameOfGroup as String,"groupCreator":uid!, "groupId":key] as [String : Any]
         
-        var postEventMembers = [uid!:"IN"] as [String : Any]
-        let postPrivate = ["name":self.titleFromPrevView as String,"creator":uid!,"time":"\(convertedDate) \(self.hourMin)", "weekday": self.weekday,"address": address, "latitute": lati, "longitude": longi,"description": description] as [String : Any]
+        //all updates into childUpdates
+        var childUpdates = ["/user-groups/\(uid!)/\(key)/": postGroupInfo]
         
-        var childUpdates = ["/user-events/\(uid!)/\(key)/": postPrivate]
         
         for invitedFriend in selectedFriends{
             myGroup.enter()
@@ -210,12 +204,12 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
             self.ref.child("facebookUser/\(invitedFriend.facebookID!)").observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
                 if (value?.allKeys.count)! > 0{
-                    //update eventMembers and user-events
-                    postEventMembers["\((value?["firebaseID"])!)"] = "NA"
+                    //update groupMembers and user-groups
+                    postGroupMembers["\((value?["firebaseID"])!)"] = "NA"
                     
                     //add to childUpdates: "/user-events/\(uid!)/\(key)/": postPrivate
-                   
-                    childUpdates["/user-events/\((value?["firebaseID"])!)/\(key)/"] = postPrivate
+                    
+                    childUpdates["/user-groups/\((value?["firebaseID"])!)/\(key)/"] = postGroupInfo
                 }
                 myGroup.leave()
             })
@@ -223,22 +217,136 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         }
         
         myGroup.notify(queue: DispatchQueue.main, execute: {
-            childUpdates["/eventInfo/\(key)"] = postEventInfo
-            childUpdates["/eventMembers/\(key)"] = postEventMembers
+            childUpdates["/groupInfo/\(key)"] = postGroupInfo
             self.ref.updateChildValues(childUpdates)
+            let updateGroupMembers = ["/groupInfo/\(key)/groupMembers" : postGroupMembers]
+            self.ref.updateChildValues(updateGroupMembers)
         })
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
     }
-    
-    
-
-   
-
 }
 
 
 
+class friendsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, UITableViewDelegate {
     
+    let friendsList = UITableView()
+    
+    
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.white
+        friendsList.delegate = self
+        friendsList.dataSource = self
+        addSubview(friendsList)
+        friendsList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
+        globalFilteredFriends = globalFriendsList
+        friendsList.keyboardDismissMode = .interactive
+        
+        friendsList.register(friendsCell2.self, forCellReuseIdentifier: "friendsCell2")
+        
+        friendsList.reloadData()
+        
+        friendsList.separatorStyle = .none
+        
+        
+        
+    }
+    
+    //TODO: set size of table view
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Int(ceil(Double(globalFilteredFriends.count)/3.0))
+        
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        if let cell: friendsCell2 = self.friendsList.dequeueReusableCell(withIdentifier: "friendsCell2") as? friendsCell2 {
+            
+            //get the three next faceBookIds
+            let indexOfFirstFriend = (indexPath.row) * 3
+            let totalIndexes = globalFilteredFriends.count-1
+            let diff = Int(totalIndexes-indexOfFirstFriend)
+            if diff == 0 {
+                cell.updateFriendsCell1(friend1: globalFilteredFriends[indexOfFirstFriend])
+            } else if diff == 1{
+                cell.updateFriendsCell2(friend1: globalFilteredFriends[indexOfFirstFriend],friend2: globalFilteredFriends[indexOfFirstFriend+1])
+            } else {
+                cell.updateFriendsCell3(friend1: globalFilteredFriends[indexOfFirstFriend],friend2: globalFilteredFriends[indexOfFirstFriend+1], friend3: globalFilteredFriends[indexOfFirstFriend+2])
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            return cell
+            
+            
+            
+            
+        } else {
+            return UITableViewCell()
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110
+    }
+    
+    
+    
+}
+
+
+class groupsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, UITableViewDelegate {
+    
+    let groupList = UITableView()
+    
+    override init(frame: CGRect){
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.white
+        groupList.delegate = self
+        groupList.dataSource = self
+        addSubview(groupList)
+        globalFilteredGroups = globalGroups
+        groupList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
+        groupList.keyboardDismissMode = .interactive
+        groupList.register(groupCell.self, forCellReuseIdentifier: "groupCell")
+        groupList.reloadData()
+        groupList.separatorStyle = .none
+        
+    }
+    
+    //TODO: set size of table view
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return globalFilteredGroups.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        if let cell: groupCell = self.groupList.dequeueReusableCell(withIdentifier: "groupCell") as? groupCell {
+            cell.selectionStyle = UITableViewCellSelectionStyle.none
+            cell.textLabel?.text = globalFilteredGroups[indexPath.row]
+            return cell
+            
+        } else {
+            return UITableViewCell()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110
+    }
+    
+    
+}
+
+
 
 
 

@@ -35,8 +35,10 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         }
         UIApplication.shared.isStatusBarHidden = false
         self.groupsLabel.alpha = 0
+        
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         
+
         feedAndGroupsCollectionView.dataSource = self
         feedAndGroupsCollectionView.delegate = self
         
@@ -277,7 +279,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
             self.performSegue(withIdentifier: "createNewEvent", sender: nil)
             
         } else {
-            print("got to groups")
+            self.performSegue(withIdentifier: "createNewGroupName", sender: nil)
         }
     }
     @IBAction func settingsButtonClicked(_ sender: AnyObject) {
@@ -322,6 +324,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         events.separatorStyle = .none
         loadEvents()
         
+        
         let directions: [UISwipeGestureRecognizerDirection] = [.right, .left]
         
         let gesture = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(sender:)))
@@ -335,7 +338,10 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     
     
     func loadEvents(){
-        var myGroup = DispatchGroup()
+        let myGroup = DispatchGroup()
+        if FBSDKAccessToken.current() == nil{
+            return
+        }
         if FBSDKAccessToken.current().userID != nil{
             let uid = FIRAuth.auth()?.currentUser?.uid // FIRAuth.auth()?.currentUser?.uid, should also be forced unwrap ! on .child(uid!) underneathh
             
@@ -630,13 +636,13 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groupStringList.count
+        return globalGroups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         if let cell: groupCell = self.groupList.dequeueReusableCell(withIdentifier: "groupCell") as? groupCell {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
-            cell.textLabel?.text = groupStringList[indexPath.row]
+            cell.textLabel?.text = globalGroups[indexPath.row]
             return cell
             
         } else {

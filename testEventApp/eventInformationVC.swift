@@ -52,30 +52,81 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if profilePicture.image == nil{
-            self.profilePicture.image = #imageLiteral(resourceName: "people")
-        }
-        
+      
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
         setUpCollectionView()
+        setupAttendingNumber()
+        setupAddressAndPin()
+        setupMessages()
+        setupDivider()
+        setupEventPicture()
+        setupEventTitleAndEventTime()
+        setUpProfilePicture()
+        setUpBackButton()
+        setUpPeoplePicture()
         
-        view.addSubview(self.profilePicture)
-        eventTitle.sizeToFit()
-        self.eventTitle.font = UIFont(name: "Helvetica-Neue", size: CGFloat(25))
-        self.eventTitle.font = UIFont.systemFont(ofSize: CGFloat(25), weight: UIFontWeightThin)
-        view.addSubview(eventTitle)
-        
-        self.eventTime.font = UIFont(name: "Helvetica-Neue", size: CGFloat(18))
-        self.eventTime.textColor = UIColor.lightGray
-        view.addSubview(self.eventTime)
-        
-        
+    }
+    
+    func setupAttendingNumber(){
+        //attending number
+        self.view.addSubview(self.numberAttending)
+        let numberFontSize = 15.0
+        self.numberAttending.textColor = constants.globalColors.happyMainColor
+        self.numberAttending.font = UIFont(name: "Helvetica-Neue", size: CGFloat(numberFontSize))
+    }
+    
+    func setupAddressAndPin(){
+        self.address.font = UIFont(name: "Helvetica-Neue", size: CGFloat(20))
+        self.address.font = UIFont.systemFont(ofSize: CGFloat(20), weight: UIFontWeightThin)
+        self.view.addSubview(self.address)
+        self.addressPin.image = #imageLiteral(resourceName: "geoTag0.2x")
+        self.addressPin.contentMode = .scaleAspectFill
+        self.view.addSubview(self.addressPin)
+    }
+    
+    func setupMessages(){
+        //add messages - height depends on last message!!
+        self.messageImageView = UIImageView(frame: CGRect(x: (self.hasNotRespondedYet ? -UIScreen.main.bounds.width:0.0), y: UIScreen.main.bounds.height-self.attendingButtonHeight-self.dividerHeight-self.attendingButtonHeight, width: UIScreen.main.bounds.width, height: self.attendingButtonHeight))
+        self.messageImageView.image = #imageLiteral(resourceName: "messageTest")
+        self.messageImageView.clipsToBounds = true
+        self.messageImageView.contentMode = UIViewContentMode.scaleAspectFit
+        self.view.addSubview(self.messageImageView)
+    }
+    
+    func setupDivider(){
+        self.divider = UIView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height-self.attendingButtonHeight, width: UIScreen.main.bounds.width, height: self.dividerHeight))
+        self.divider.backgroundColor = UIColor.lightGray
+        self.divider.alpha = 0.5
+        self.view.addSubview(self.divider)
+    }
+    
+    func setupEventPicture(){
         eventPicture.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: CGFloat(eventPictureHeight))
         eventPicture.contentMode = UIViewContentMode.scaleAspectFill
         eventPicture.alpha = 0.7
         eventPicture.clipsToBounds = true
         view.addSubview(eventPicture)
-        
-        
+    }
+    
+    func setupEventTitleAndEventTime(){
+        eventTitle.sizeToFit()
+        self.eventTitle.font = UIFont(name: "Helvetica-Neue", size: CGFloat(25))
+        self.eventTitle.font = UIFont.systemFont(ofSize: CGFloat(25), weight: UIFontWeightThin)
+        view.addSubview(eventTitle)
+        self.eventTime.font = UIFont(name: "Helvetica-Neue", size: CGFloat(18))
+        self.eventTime.textColor = UIColor.lightGray
+        view.addSubview(self.eventTime)
+    }
+    
+    func setUpProfilePicture(){
+        if profilePicture.image == nil{
+            self.profilePicture.image = #imageLiteral(resourceName: "people")
+        }
+        view.addSubview(self.profilePicture)
+        self.view.bringSubview(toFront: profilePicture)
+    }
+    
+    func setUpBackButton(){
         //backbutton
         self.backButton = UIButton(frame: CGRect(x: -5, y: 0, width: 66, height: 66))
         let buttonPicture = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
@@ -86,59 +137,22 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         self.backButton.imageEdgeInsets = UIEdgeInsetsMake(13, 20, 13, 20)
         self.backButton.addTarget(self, action: #selector(eventInformationVC.handleActionBackButton), for: .touchUpInside)
         self.view.addSubview(self.backButton)
-        
-        
-        self.view.bringSubview(toFront: profilePicture)
         self.view.bringSubview(toFront: self.backButton)
-        
-        
-        self.divider = UIView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height-self.attendingButtonHeight, width: UIScreen.main.bounds.width, height: self.dividerHeight))
-        self.divider.backgroundColor = UIColor.lightGray
-        self.divider.alpha = 0.5
-        self.view.addSubview(self.divider)
-        
-        //add messages - height depends on last message!!
-        self.messageImageView = UIImageView(frame: CGRect(x: (self.hasNotRespondedYet ? -UIScreen.main.bounds.width:0.0), y: UIScreen.main.bounds.height-self.attendingButtonHeight-self.dividerHeight-self.attendingButtonHeight, width: UIScreen.main.bounds.width, height: self.attendingButtonHeight))
-        self.messageImageView.image = #imageLiteral(resourceName: "messageTest")
-        self.messageImageView.clipsToBounds = true
-        self.messageImageView.contentMode = UIViewContentMode.scaleAspectFit
-        self.view.addSubview(self.messageImageView)
-        print("1",self.messageImageView)
-        
-        self.address.font = UIFont(name: "Helvetica-Neue", size: CGFloat(20))
-        self.address.font = UIFont.systemFont(ofSize: CGFloat(20), weight: UIFontWeightThin)
-        
-        self.view.addSubview(self.address)
-        
-        self.addressPin.image = #imageLiteral(resourceName: "geoTag0.2x")
-        self.addressPin.contentMode = .scaleAspectFill
-        self.view.addSubview(self.addressPin)
-        
-        
-        
-        //attending number and picture
-        self.view.addSubview(self.numberAttending)
-        let numberFontSize = 15.0
-        self.numberAttending.textColor = constants.globalColors.happyMainColor
-        self.numberAttending.font = UIFont(name: "Helvetica-Neue", size: CGFloat(numberFontSize))
-        
-        //People picture
-        
+    }
+    
+    func setUpPeoplePicture(){
         self.peoplePic.image = #imageLiteral(resourceName: "people")
         self.peoplePic.contentMode = .scaleAspectFill
         self.view.addSubview(self.peoplePic)
         
         if !self.hasNotRespondedYet {
             if self.attendingStatus == "IN" {
-                print("go to in")
                 self.attendingCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: false)
             } else {
-                print("go to out")
                 self.attendingCollectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .left, animated: false)
             }
         }
     }
-
     
     func setUpCollectionView(){
         let flowLayout = UICollectionViewFlowLayout()
@@ -436,7 +450,6 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         self.ref.child("eventMembers/\(eventID)").observeSingleEvent(of: .value, with: { (snapshot) in
             
             let value = snapshot.value as? NSDictionary
-            print(value)
             for userID in (value?.allKeys)! {
                 self.ref.child("user-events").child("\(userID)").child(eventID).removeValue(completionBlock: { (error, FIRDatabaseReference) in
                     if error != nil{

@@ -13,15 +13,16 @@ import FirebaseAuth
 
 var globalFriendsList = [facebookFriend]() //friends with app
 var globalTaggableFriends = [facebookFriendWithoutApp]() //all friends on facebook
-var groupStringList = ["Gutta i trondhiem","Smiths venner","Oslogutane"]
 
 func updateFriendsList(){
-    
+    if FBSDKAccessToken.current() == nil{
+        return
+    }
     //FRIENDS WITH APP
     let request = FBSDKGraphRequest(graphPath: "/\(FBSDKAccessToken.current().userID!)/friends", parameters: nil, httpMethod: "GET")
     var returnData = NSDictionary()
     DispatchQueue.global(qos: .background).async {
-        request?.start(completionHandler: { (FBSDKGraphRequestConnection, result, error) in
+        request?.start(completionHandler: { (nil,result, error) in
             if error != nil {
                 print(error.debugDescription)
             } else {
@@ -180,6 +181,7 @@ func updateFacebookPictures(friends: NSDictionary){
     //add try accept
     if friends.allKeys.count > 0{
         if let friendsArray = friends["data"] {
+            print("facebook friends using app")
             print(friendsArray)
             for person in (friendsArray as! NSArray){ //persin is dictionary
                 let personDict = (person as! NSDictionary)

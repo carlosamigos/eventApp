@@ -24,6 +24,7 @@ class nameAndDescription: UIViewController, UITextFieldDelegate {
         titleField.frame = CGRect(x: 0, y: UIScreen.main.bounds.height/2-titleField.frame.height/2, width: UIScreen.main.bounds.width, height: titleField.frame.height)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(nameAndDescription.dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+        UIApplication.shared.setStatusBarHidden(true, with: .fade)
         
     }
 
@@ -33,6 +34,7 @@ class nameAndDescription: UIViewController, UITextFieldDelegate {
     
     @IBAction func backBtnPressed(_ sender: AnyObject) {
         self.view.endEditing(true)
+        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         dismiss(animated: true, completion: nil)
     }
     

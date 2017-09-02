@@ -17,6 +17,7 @@ class LoginVC: UIViewController {
     
     @IBOutlet weak var facebookLoginBtnLabel: UIButton!
     @IBOutlet weak var aivControl: UIActivityIndicatorView!
+    @IBOutlet weak var slogan: UILabel!
     
     var myRootRef = FIRDatabase.database().reference()
     
@@ -29,10 +30,21 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         facebookLoginBtnLabel.alpha = 0
         loginText.alpha = 0
-        UIView.animate(withDuration: 1.5) {
+        slogan.alpha = 0
+        
+        UIView.animate(withDuration: 2, delay: 0, options: .curveEaseIn, animations: {
+            self.slogan.alpha = 1
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 2, delay: 1.5, options: .curveEaseIn, animations: {
+            self.facebookLoginBtnLabel.alpha = 1
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 2, delay: 3, options: .curveEaseIn, animations: {
             self.facebookLoginBtnLabel.alpha = 1
             self.loginText.alpha = 1
-        }
+        }, completion: nil)
+
         
         //TODO: add if user is already logged in
         FIRAuth.auth()?.addStateDidChangeListener({ (auth, user) in
