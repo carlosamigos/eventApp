@@ -7,21 +7,91 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32EC4ADB78970FF3F4AB736A /* Pods_testEventApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B09C18D1AB3B4582B2DF6B5 /* Pods_testEventApp.framework */; };
+		611019D41D9EE39A008420D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 611019D31D9EE39A008420D0 /* GoogleService-Info.plist */; };
+		611019D61D9EE6AD008420D0 /* settingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611019D51D9EE6AD008420D0 /* settingsVC.swift */; };
+		61160F361DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61160F351DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift */; };
+		61160F381DCB9EA8001B86F3 /* feedEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61160F371DCB9EA8001B86F3 /* feedEventCell.swift */; };
+		61197E9E1DA66B210025AAC8 /* selectFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61197E9D1DA66B210025AAC8 /* selectFriends.swift */; };
+		61197EA91DA67C5E0025AAC8 /* friendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61197EA81DA67C5E0025AAC8 /* friendsCell.swift */; };
+		61197EB01DA7D0120025AAC8 /* facebookFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61197EAF1DA7D0120025AAC8 /* facebookFriend.swift */; };
+		611B866A1F685491000ED0E5 /* eventsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611B86691F685491000ED0E5 /* eventsCollectionView.swift */; };
+		612200461DA2FB290065E449 /* eventInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612200451DA2FB290065E449 /* eventInformation.swift */; };
+		612444871DE06A340060A03C /* facebookUpdaters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612444861DE06A340060A03C /* facebookUpdaters.swift */; };
+		61312E201DA3080C00C56927 /* nameAndDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61312E1F1DA3080C00C56927 /* nameAndDescription.swift */; };
+		614235AD1DA00E780051390F /* timeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614235AC1DA00E780051390F /* timeSelector.swift */; };
+		614235AF1DA0397F0051390F /* locationSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614235AE1DA0397F0051390F /* locationSelector.swift */; };
+		614235B11DA048430051390F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 614235B01DA048430051390F /* CoreLocation.framework */; };
+		615878361DD08D07006EE2A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 615878341DD08D07006EE2A2 /* Main.storyboard */; };
+		615B6A661F5B3D34007D7CD1 /* groupInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615B6A651F5B3D34007D7CD1 /* groupInformation.swift */; };
+		615D16B11DC3DA0C001B9E6A /* groupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615D16B01DC3DA0C001B9E6A /* groupCell.swift */; };
+		615E65181DCDC547000D2264 /* segueFeedToEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615E65171DCDC547000D2264 /* segueFeedToEvent.swift */; };
+		615E651C1DCDF37A000D2264 /* eventInformationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615E651B1DCDF37A000D2264 /* eventInformationVC.swift */; };
+		615E651E1DCE255C000D2264 /* pullDownToDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615E651D1DCE255C000D2264 /* pullDownToDismissAnimator.swift */; };
+		616F5B231F56B0DF006DC916 /* selectFriendsToGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616F5B221F56B0DF006DC916 /* selectFriendsToGroup.swift */; };
+		61710C5F1DAA642C0003BE42 /* dataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61710C5E1DAA642C0003BE42 /* dataSource.swift */; };
+		61710C691DAA7EA50003BE42 /* invitePeopleTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61710C681DAA7EA50003BE42 /* invitePeopleTestViewController.swift */; };
+		61710C6D1DAABD950003BE42 /* friendsCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61710C6C1DAABD950003BE42 /* friendsCell2.swift */; };
+		6182353D1F4F0DCF0094B697 /* createNewGroupName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6182353C1F4F0DCF0094B697 /* createNewGroupName.swift */; };
+		6197385C1D9C65A300889311 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 619738591D9C65A300889311 /* FBSDKCoreKit.framework */; };
+		6197385D1D9C65A300889311 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6197385A1D9C65A300889311 /* FBSDKLoginKit.framework */; };
+		6197385E1D9C65A300889311 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6197385B1D9C65A300889311 /* FBSDKShareKit.framework */; };
 		619915641D9A898200979D9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619915631D9A898200979D9C /* AppDelegate.swift */; };
-		619915661D9A898200979D9C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619915651D9A898200979D9C /* ViewController.swift */; };
-		619915691D9A898200979D9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 619915671D9A898200979D9C /* Main.storyboard */; };
+		619915661D9A898200979D9C /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619915651D9A898200979D9C /* LoginVC.swift */; };
 		6199156B1D9A898200979D9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6199156A1D9A898200979D9C /* Assets.xcassets */; };
 		6199156E1D9A898200979D9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6199156C1D9A898200979D9C /* LaunchScreen.storyboard */; };
+		6199157A1D9A979000979D9C /* chooseDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619915791D9A979000979D9C /* chooseDay.swift */; };
+		619FCDF41F68481E00EE5E8A /* feedGroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619FCDF31F68481E00EE5E8A /* feedGroupCell.swift */; };
+		61AA3BC01F6855C6000567CA /* groupsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BBF1F6855C6000567CA /* groupsCollectionView.swift */; };
+		61AA3BC21F685962000567CA /* globalLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BC11F685962000567CA /* globalLists.swift */; };
+		61AA3BC41F685AB7000567CA /* loadEventsFromFireBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BC31F685AB7000567CA /* loadEventsFromFireBase.swift */; };
+		61DA095C1DDF99140059A01B /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DA095B1DDF99140059A01B /* GlobalConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B09C18D1AB3B4582B2DF6B5 /* Pods_testEventApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testEventApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		611019D31D9EE39A008420D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		611019D51D9EE6AD008420D0 /* settingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsVC.swift; sourceTree = "<group>"; };
+		61160F351DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAndGroupsViewController.swift; sourceTree = "<group>"; };
+		61160F371DCB9EA8001B86F3 /* feedEventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feedEventCell.swift; sourceTree = "<group>"; };
+		61197E9D1DA66B210025AAC8 /* selectFriends.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = selectFriends.swift; sourceTree = "<group>"; };
+		61197EA81DA67C5E0025AAC8 /* friendsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = friendsCell.swift; sourceTree = "<group>"; };
+		61197EAF1DA7D0120025AAC8 /* facebookFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = facebookFriend.swift; sourceTree = "<group>"; };
+		611B86691F685491000ED0E5 /* eventsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventsCollectionView.swift; sourceTree = "<group>"; };
+		612200451DA2FB290065E449 /* eventInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventInformation.swift; sourceTree = "<group>"; };
+		612444861DE06A340060A03C /* facebookUpdaters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = facebookUpdaters.swift; sourceTree = "<group>"; };
+		61312E1F1DA3080C00C56927 /* nameAndDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = nameAndDescription.swift; sourceTree = "<group>"; };
+		614235AC1DA00E780051390F /* timeSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = timeSelector.swift; sourceTree = "<group>"; };
+		614235AE1DA0397F0051390F /* locationSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = locationSelector.swift; sourceTree = "<group>"; };
+		614235B01DA048430051390F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		615878351DD08D07006EE2A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		615B6A651F5B3D34007D7CD1 /* groupInformation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupInformation.swift; sourceTree = "<group>"; };
+		615D16B01DC3DA0C001B9E6A /* groupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupCell.swift; sourceTree = "<group>"; };
+		615E65171DCDC547000D2264 /* segueFeedToEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = segueFeedToEvent.swift; sourceTree = "<group>"; };
+		615E651B1DCDF37A000D2264 /* eventInformationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventInformationVC.swift; sourceTree = "<group>"; };
+		615E651D1DCE255C000D2264 /* pullDownToDismissAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pullDownToDismissAnimator.swift; sourceTree = "<group>"; };
+		616F5B221F56B0DF006DC916 /* selectFriendsToGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = selectFriendsToGroup.swift; sourceTree = "<group>"; };
+		61710C5E1DAA642C0003BE42 /* dataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataSource.swift; sourceTree = "<group>"; };
+		61710C681DAA7EA50003BE42 /* invitePeopleTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = invitePeopleTestViewController.swift; sourceTree = "<group>"; };
+		61710C6C1DAABD950003BE42 /* friendsCell2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = friendsCell2.swift; sourceTree = "<group>"; };
+		6182353C1F4F0DCF0094B697 /* createNewGroupName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = createNewGroupName.swift; sourceTree = "<group>"; };
+		619738591D9C65A300889311 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = FacebookSDKs/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		6197385A1D9C65A300889311 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = FacebookSDKs/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		6197385B1D9C65A300889311 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = FacebookSDKs/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		619915601D9A898200979D9C /* testEventApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testEventApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		619915631D9A898200979D9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		619915651D9A898200979D9C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		619915681D9A898200979D9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		619915651D9A898200979D9C /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		6199156A1D9A898200979D9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6199156D1D9A898200979D9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6199156F1D9A898200979D9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		619915791D9A979000979D9C /* chooseDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chooseDay.swift; sourceTree = "<group>"; };
+		619FCDF31F68481E00EE5E8A /* feedGroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = feedGroupCell.swift; sourceTree = "<group>"; };
+		61AA3BBF1F6855C6000567CA /* groupsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupsCollectionView.swift; sourceTree = "<group>"; };
+		61AA3BC11F685962000567CA /* globalLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = globalLists.swift; sourceTree = "<group>"; };
+		61AA3BC31F685AB7000567CA /* loadEventsFromFireBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadEventsFromFireBase.swift; sourceTree = "<group>"; };
+		61DA095B1DDF99140059A01B /* GlobalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
+		A22EA3813E7CAA7E53B3C079 /* Pods-testEventApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testEventApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testEventApp/Pods-testEventApp.debug.xcconfig"; sourceTree = "<group>"; };
+		FF622AE473ED1F1C2753DBF0 /* Pods-testEventApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testEventApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-testEventApp/Pods-testEventApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +99,199 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				614235B11DA048430051390F /* CoreLocation.framework in Frameworks */,
+				6197385E1D9C65A300889311 /* FBSDKShareKit.framework in Frameworks */,
+				32EC4ADB78970FF3F4AB736A /* Pods_testEventApp.framework in Frameworks */,
+				6197385C1D9C65A300889311 /* FBSDKCoreKit.framework in Frameworks */,
+				6197385D1D9C65A300889311 /* FBSDKLoginKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		61197E9F1DA66B260025AAC8 /* Create Event */ = {
+			isa = PBXGroup;
+			children = (
+				611B86611F684E73000ED0E5 /* Choose Name of Event */,
+				611B86641F684F4F000ED0E5 /* Choose Time */,
+				611B86631F684F2A000ED0E5 /* Choose Day */,
+				611B86621F684EF3000ED0E5 /* Choose Location */,
+				611B86601F684E53000ED0E5 /* Invite People and Groups */,
+				611B86651F684F63000ED0E5 /* Not Used */,
+			);
+			name = "Create Event";
+			sourceTree = "<group>";
+		};
+		61197EA11DA66B590025AAC8 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				611B86681F684FCF000ED0E5 /* FeedGroup */,
+				611B86671F684FAA000ED0E5 /* FeedView */,
+				611B86661F684F86000ED0E5 /* FeedEvent */,
+			);
+			name = Feed;
+			sourceTree = "<group>";
+		};
+		61197EA21DA66B690025AAC8 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				611019D51D9EE6AD008420D0 /* settingsVC.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		61197EA31DA66B760025AAC8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				619915651D9A898200979D9C /* LoginVC.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		61197EA41DA66B880025AAC8 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				615878341DD08D07006EE2A2 /* Main.storyboard */,
+				6199156C1D9A898200979D9C /* LaunchScreen.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		61197EA51DA66B970025AAC8 /* Plists */ = {
+			isa = PBXGroup;
+			children = (
+				6199156F1D9A898200979D9C /* Info.plist */,
+				611019D31D9EE39A008420D0 /* GoogleService-Info.plist */,
+			);
+			name = Plists;
+			sourceTree = "<group>";
+		};
+		611B86601F684E53000ED0E5 /* Invite People and Groups */ = {
+			isa = PBXGroup;
+			children = (
+				61710C681DAA7EA50003BE42 /* invitePeopleTestViewController.swift */,
+				61710C6C1DAABD950003BE42 /* friendsCell2.swift */,
+				615D16B01DC3DA0C001B9E6A /* groupCell.swift */,
+			);
+			name = "Invite People and Groups";
+			sourceTree = "<group>";
+		};
+		611B86611F684E73000ED0E5 /* Choose Name of Event */ = {
+			isa = PBXGroup;
+			children = (
+				61312E1F1DA3080C00C56927 /* nameAndDescription.swift */,
+			);
+			name = "Choose Name of Event";
+			sourceTree = "<group>";
+		};
+		611B86621F684EF3000ED0E5 /* Choose Location */ = {
+			isa = PBXGroup;
+			children = (
+				614235AE1DA0397F0051390F /* locationSelector.swift */,
+			);
+			name = "Choose Location";
+			sourceTree = "<group>";
+		};
+		611B86631F684F2A000ED0E5 /* Choose Day */ = {
+			isa = PBXGroup;
+			children = (
+				619915791D9A979000979D9C /* chooseDay.swift */,
+			);
+			name = "Choose Day";
+			sourceTree = "<group>";
+		};
+		611B86641F684F4F000ED0E5 /* Choose Time */ = {
+			isa = PBXGroup;
+			children = (
+				614235AC1DA00E780051390F /* timeSelector.swift */,
+			);
+			name = "Choose Time";
+			sourceTree = "<group>";
+		};
+		611B86651F684F63000ED0E5 /* Not Used */ = {
+			isa = PBXGroup;
+			children = (
+				61197E9D1DA66B210025AAC8 /* selectFriends.swift */,
+				61197EA81DA67C5E0025AAC8 /* friendsCell.swift */,
+			);
+			name = "Not Used";
+			sourceTree = "<group>";
+		};
+		611B86661F684F86000ED0E5 /* FeedEvent */ = {
+			isa = PBXGroup;
+			children = (
+				615E651B1DCDF37A000D2264 /* eventInformationVC.swift */,
+				615E65171DCDC547000D2264 /* segueFeedToEvent.swift */,
+			);
+			name = FeedEvent;
+			sourceTree = "<group>";
+		};
+		611B86671F684FAA000ED0E5 /* FeedView */ = {
+			isa = PBXGroup;
+			children = (
+				61160F351DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift */,
+				61160F371DCB9EA8001B86F3 /* feedEventCell.swift */,
+				619FCDF31F68481E00EE5E8A /* feedGroupCell.swift */,
+				611B86691F685491000ED0E5 /* eventsCollectionView.swift */,
+				61AA3BBF1F6855C6000567CA /* groupsCollectionView.swift */,
+			);
+			name = FeedView;
+			sourceTree = "<group>";
+		};
+		611B86681F684FCF000ED0E5 /* FeedGroup */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = FeedGroup;
+			sourceTree = "<group>";
+		};
+		612444851DE06A160060A03C /* Global helper functions */ = {
+			isa = PBXGroup;
+			children = (
+				612444861DE06A340060A03C /* facebookUpdaters.swift */,
+				61AA3BC31F685AB7000567CA /* loadEventsFromFireBase.swift */,
+			);
+			name = "Global helper functions";
+			sourceTree = "<group>";
+		};
+		612BC2F01DA401C70008FE37 /* Animators */ = {
+			isa = PBXGroup;
+			children = (
+				615E651D1DCE255C000D2264 /* pullDownToDismissAnimator.swift */,
+			);
+			name = Animators;
+			sourceTree = "<group>";
+		};
+		614235B61DA29B5E0051390F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				612200451DA2FB290065E449 /* eventInformation.swift */,
+				61197EAF1DA7D0120025AAC8 /* facebookFriend.swift */,
+				615B6A651F5B3D34007D7CD1 /* groupInformation.swift */,
+			);
+			name = Models;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		6182353B1F4F0C740094B697 /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				6182353C1F4F0DCF0094B697 /* createNewGroupName.swift */,
+				616F5B221F56B0DF006DC916 /* selectFriendsToGroup.swift */,
+			);
+			name = Groups;
+			sourceTree = "<group>";
+		};
 		619915571D9A898200979D9C = {
 			isa = PBXGroup;
 			children = (
+				61DA095A1DDF98F90059A01B /* Global Constants */,
+				612BC2F01DA401C70008FE37 /* Animators */,
 				619915621D9A898200979D9C /* testEventApp */,
 				619915611D9A898200979D9C /* Products */,
+				C091F44F1D39B78F8D491062 /* Pods */,
+				C89CBAB1849A6BC3503A932D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +306,58 @@
 		619915621D9A898200979D9C /* testEventApp */ = {
 			isa = PBXGroup;
 			children = (
+				61AA3BBD1F685576000567CA /* Global Lists */,
+				6182353B1F4F0C740094B697 /* Groups */,
+				612444851DE06A160060A03C /* Global helper functions */,
+				61197EA51DA66B970025AAC8 /* Plists */,
+				614235B61DA29B5E0051390F /* Models */,
 				619915631D9A898200979D9C /* AppDelegate.swift */,
-				619915651D9A898200979D9C /* ViewController.swift */,
-				619915671D9A898200979D9C /* Main.storyboard */,
 				6199156A1D9A898200979D9C /* Assets.xcassets */,
-				6199156C1D9A898200979D9C /* LaunchScreen.storyboard */,
-				6199156F1D9A898200979D9C /* Info.plist */,
+				61710C5E1DAA642C0003BE42 /* dataSource.swift */,
+				61197EA41DA66B880025AAC8 /* Storyboards */,
+				61197EA31DA66B760025AAC8 /* Login */,
+				61197EA21DA66B690025AAC8 /* Settings */,
+				61197EA11DA66B590025AAC8 /* Feed */,
+				61197E9F1DA66B260025AAC8 /* Create Event */,
 			);
 			path = testEventApp;
+			sourceTree = "<group>";
+		};
+		61AA3BBD1F685576000567CA /* Global Lists */ = {
+			isa = PBXGroup;
+			children = (
+				61AA3BC11F685962000567CA /* globalLists.swift */,
+			);
+			name = "Global Lists";
+			sourceTree = "<group>";
+		};
+		61DA095A1DDF98F90059A01B /* Global Constants */ = {
+			isa = PBXGroup;
+			children = (
+				61DA095B1DDF99140059A01B /* GlobalConstants.swift */,
+			);
+			name = "Global Constants";
+			sourceTree = "<group>";
+		};
+		C091F44F1D39B78F8D491062 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A22EA3813E7CAA7E53B3C079 /* Pods-testEventApp.debug.xcconfig */,
+				FF622AE473ED1F1C2753DBF0 /* Pods-testEventApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C89CBAB1849A6BC3503A932D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				614235B01DA048430051390F /* CoreLocation.framework */,
+				619738591D9C65A300889311 /* FBSDKCoreKit.framework */,
+				6197385A1D9C65A300889311 /* FBSDKLoginKit.framework */,
+				6197385B1D9C65A300889311 /* FBSDKShareKit.framework */,
+				4B09C18D1AB3B4582B2DF6B5 /* Pods_testEventApp.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +367,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 619915721D9A898200979D9C /* Build configuration list for PBXNativeTarget "testEventApp" */;
 			buildPhases = (
+				AE0D61129D82A94D907F8C8A /* [CP] Check Pods Manifest.lock */,
 				6199155C1D9A898200979D9C /* Sources */,
 				6199155D1D9A898200979D9C /* Frameworks */,
 				6199155E1D9A898200979D9C /* Resources */,
+				33518F00CC320D9DF33BB1F5 /* [CP] Embed Pods Frameworks */,
+				063505462C2CBB7424EA634E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -96,6 +395,7 @@
 				TargetAttributes = {
 					6199155F1D9A898200979D9C = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = GXRL6MJLV2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -124,30 +424,107 @@
 			buildActionMask = 2147483647;
 			files = (
 				6199156E1D9A898200979D9C /* LaunchScreen.storyboard in Resources */,
+				611019D41D9EE39A008420D0 /* GoogleService-Info.plist in Resources */,
 				6199156B1D9A898200979D9C /* Assets.xcassets in Resources */,
-				619915691D9A898200979D9C /* Main.storyboard in Resources */,
+				615878361DD08D07006EE2A2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		063505462C2CBB7424EA634E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-testEventApp/Pods-testEventApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		33518F00CC320D9DF33BB1F5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-testEventApp/Pods-testEventApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE0D61129D82A94D907F8C8A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6199155C1D9A898200979D9C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				619915661D9A898200979D9C /* ViewController.swift in Sources */,
+				61312E201DA3080C00C56927 /* nameAndDescription.swift in Sources */,
+				611B866A1F685491000ED0E5 /* eventsCollectionView.swift in Sources */,
+				619FCDF41F68481E00EE5E8A /* feedGroupCell.swift in Sources */,
+				61AA3BC41F685AB7000567CA /* loadEventsFromFireBase.swift in Sources */,
+				61197EA91DA67C5E0025AAC8 /* friendsCell.swift in Sources */,
+				615B6A661F5B3D34007D7CD1 /* groupInformation.swift in Sources */,
+				614235AD1DA00E780051390F /* timeSelector.swift in Sources */,
+				616F5B231F56B0DF006DC916 /* selectFriendsToGroup.swift in Sources */,
+				61710C691DAA7EA50003BE42 /* invitePeopleTestViewController.swift in Sources */,
+				61AA3BC01F6855C6000567CA /* groupsCollectionView.swift in Sources */,
+				619915661D9A898200979D9C /* LoginVC.swift in Sources */,
+				61160F381DCB9EA8001B86F3 /* feedEventCell.swift in Sources */,
+				615E651E1DCE255C000D2264 /* pullDownToDismissAnimator.swift in Sources */,
+				61710C5F1DAA642C0003BE42 /* dataSource.swift in Sources */,
+				61197E9E1DA66B210025AAC8 /* selectFriends.swift in Sources */,
+				61160F361DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift in Sources */,
+				615E651C1DCDF37A000D2264 /* eventInformationVC.swift in Sources */,
+				614235AF1DA0397F0051390F /* locationSelector.swift in Sources */,
+				611019D61D9EE6AD008420D0 /* settingsVC.swift in Sources */,
+				61197EB01DA7D0120025AAC8 /* facebookFriend.swift in Sources */,
+				615E65181DCDC547000D2264 /* segueFeedToEvent.swift in Sources */,
 				619915641D9A898200979D9C /* AppDelegate.swift in Sources */,
+				61AA3BC21F685962000567CA /* globalLists.swift in Sources */,
+				612200461DA2FB290065E449 /* eventInformation.swift in Sources */,
+				6199157A1D9A979000979D9C /* chooseDay.swift in Sources */,
+				61710C6D1DAABD950003BE42 /* friendsCell2.swift in Sources */,
+				6182353D1F4F0DCF0094B697 /* createNewGroupName.swift in Sources */,
+				61DA095C1DDF99140059A01B /* GlobalConstants.swift in Sources */,
+				612444871DE06A340060A03C /* facebookUpdaters.swift in Sources */,
+				615D16B11DC3DA0C001B9E6A /* groupCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		619915671D9A898200979D9C /* Main.storyboard */ = {
+		615878341DD08D07006EE2A2 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				619915681D9A898200979D9C /* Base */,
+				615878351DD08D07006EE2A2 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -258,8 +635,14 @@
 		};
 		619915731D9A898200979D9C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A22EA3813E7CAA7E53B3C079 /* Pods-testEventApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = GXRL6MJLV2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FacebookSDKs",
+				);
 				INFOPLIST_FILE = testEventApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.supertest.testEventApp;
@@ -270,8 +653,14 @@
 		};
 		619915741D9A898200979D9C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF622AE473ED1F1C2753DBF0 /* Pods-testEventApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = GXRL6MJLV2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FacebookSDKs",
+				);
 				INFOPLIST_FILE = testEventApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.supertest.testEventApp;
@@ -299,6 +688,7 @@
 				619915741D9A898200979D9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
