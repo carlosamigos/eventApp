@@ -8,6 +8,8 @@
 
 var globalFriendsList = [facebookFriend]() //friends with app
 
+var globalGroupsFromFirebase = [groupInformation]()
+
 var eventsFromFirebase = [eventInformation]()
 
 

@@ -27,7 +27,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
 
     
     override func viewDidLoad() {
-        updateFriendsList()
+        
         super.viewDidLoad()
         if FBSDKAccessToken.current() == nil {
             print("accesstoken in feed = nil ")

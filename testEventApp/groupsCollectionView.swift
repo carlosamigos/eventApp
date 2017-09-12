@@ -49,13 +49,13 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return globalGroups.count
+        return globalGroupsFromFirebase.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         if let cell: feedGroupCell = self.groups.dequeueReusableCell(withIdentifier: "feedGroupCell") as? feedGroupCell {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
-            cell.textLabel?.text = globalGroups[indexPath.row]
+            cell.textLabel?.text = globalGroupsFromFirebase[indexPath.row].groupName
             return cell
             
         } else {
