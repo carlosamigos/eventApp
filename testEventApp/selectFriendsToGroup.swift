@@ -38,7 +38,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
     var currentPageString: String!
     
     
-    var friendsClassRef: tripleFriendsCustomCollectionCell = tripleFriendsCustomCollectionCell()
+    var tripleFriendsClassRef: tripleFriendsCustomCollectionCell = tripleFriendsCustomCollectionCell()
     var groupClassRef: groupsCustomCollectionCell = groupsCustomCollectionCell()
     
     
@@ -126,7 +126,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
         //if indexpath = 0, then use the friends, otherwise groups
         if indexPath.row == 0 {
             custom = collectionV.dequeueReusableCell(withReuseIdentifier: "friendsCustomCell", for: indexPath) as! tripleFriendsCustomCollectionCell
-            friendsClassRef = custom as! tripleFriendsCustomCollectionCell
+            tripleFriendsClassRef = custom as! tripleFriendsCustomCollectionCell
         } else {
             custom = collectionV.dequeueReusableCell(withReuseIdentifier: "groupsCustomCell", for: indexPath) as! groupsCustomCollectionCell
             groupClassRef = custom as! groupsCustomCollectionCell
@@ -158,14 +158,14 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
         if(currentPageString == friendsString){
             globalFilteredFriends = []
             //might be an error if classRef is not initiated yet
-            friendsClassRef.friendsList.reloadData()
+            tripleFriendsClassRef.friendsList.reloadData()
             if searchText.characters.count > 0 {
                 //update filtered friends
                 self.filterContentForFriendSearch(searchName: searchText)
             } else {
                 globalFilteredFriends = globalFriendsList
             }
-            friendsClassRef.friendsList.reloadData()
+            tripleFriendsClassRef.friendsList.reloadData()
         } else if(currentPageString == groupString) {
             globalFilteredGroups = []
             //might be an error if classRef is not initiated yet
@@ -222,6 +222,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
             self.ref.updateChildValues(updateGroupMembers)
         })
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
+        resetSelectedFriendsAndGroups(tripleFriendsClassRef: tripleFriendsClassRef)
     }
 }
 

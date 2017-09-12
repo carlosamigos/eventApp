@@ -22,7 +22,7 @@ class tripleFriendsCustomCollectionCell: UICollectionViewCell, UITableViewDataSo
         globalFilteredFriends = globalFriendsList
         friendsList.keyboardDismissMode = .interactive
         
-        friendsList.register(friendsCell2.self, forCellReuseIdentifier: "friendsCell2")
+        friendsList.register(tripleFriendCell.self, forCellReuseIdentifier: "tripleFriendCell")
         
         friendsList.reloadData()
         
@@ -45,7 +45,7 @@ class tripleFriendsCustomCollectionCell: UICollectionViewCell, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        if let cell: friendsCell2 = self.friendsList.dequeueReusableCell(withIdentifier: "friendsCell2") as? friendsCell2 {
+        if let cell: tripleFriendCell = self.friendsList.dequeueReusableCell(withIdentifier: "tripleFriendCell") as? tripleFriendCell {
             
             //get the three next faceBookIds
             let indexOfFirstFriend = (indexPath.row) * 3
@@ -54,7 +54,7 @@ class tripleFriendsCustomCollectionCell: UICollectionViewCell, UITableViewDataSo
             if diff == 0 {
                 cell.updateFriendsCell1(friend1: globalFilteredFriends[indexOfFirstFriend])
             } else if diff == 1{
-                cell.updateFriendsCell2(friend1: globalFilteredFriends[indexOfFirstFriend],friend2: globalFilteredFriends[indexOfFirstFriend+1])
+                cell.updatetripleFriendCell(friend1: globalFilteredFriends[indexOfFirstFriend],friend2: globalFilteredFriends[indexOfFirstFriend+1])
             } else {
                 cell.updateFriendsCell3(friend1: globalFilteredFriends[indexOfFirstFriend],friend2: globalFilteredFriends[indexOfFirstFriend+1], friend3: globalFilteredFriends[indexOfFirstFriend+2])
             }

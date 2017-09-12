@@ -228,27 +228,12 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
             childUpdates["/eventMembers/\(key)"] = postEventMembers
             self.ref.updateChildValues(childUpdates)
         })
-        resetSelectedFriendsAndGroups()
+        resetSelectedFriendsAndGroups(tripleFriendsClassRef: self.tripleFriendsClassRef)
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         
     }
     
-    func resetSelectedFriendsAndGroups(){
         
-        //reset friends
-        for cell in self.tripleFriendsClassRef.friendsList.visibleCells{
-            let cell2 = (cell as! friendsCell2)
-            cell2.firstFriendButton.sendActions(for: .touchDown)
-            cell2.secondFriendButton.sendActions(for: .touchDown)
-            cell2.thirdFriendButton.sendActions(for: .touchDown)
-            
-        }
-        
-    }
-    
-
-   
-
 }
 
 

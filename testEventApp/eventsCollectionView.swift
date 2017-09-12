@@ -197,6 +197,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
                 potentialCells.append(cell)
             }
         }
+        //some error here
         return potentialCells[indexPath.row]
     }
     
@@ -208,7 +209,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let hoursToAddInSeconds: TimeInterval = 24 * 60 * 60 //one day
+        
         var date = NSDate()
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.full
@@ -218,6 +219,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         if convertedDate == self.separatorWeekdays[section] {
             return "Today"
         } else {
+            let hoursToAddInSeconds: TimeInterval = 24 * 60 * 60 //one day from now
             date = date.addingTimeInterval(hoursToAddInSeconds)
             convertedDate = dateFormatter.string(from: date as Date).localizedCapitalized
             if convertedDate == self.separatorWeekdays[section]{

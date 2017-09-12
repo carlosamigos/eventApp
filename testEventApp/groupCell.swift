@@ -1,5 +1,5 @@
 //
-//  friendsCell2.swift
+//  tripleFriendCell.swift
 //  testEventApp
 //
 //  Created by Carl Andreas Julsvoll on 09/10/16.
