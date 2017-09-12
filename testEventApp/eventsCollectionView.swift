@@ -18,6 +18,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     let events = UITableView()
     var eventCells = [feedEventCell]()
     var pastEventCells = [feedEventCell]()
+    let headerSize = 40.0
     
     private var ref: FIRDatabaseReference!
     
@@ -230,6 +231,45 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     }
     
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        let label = UILabel()
+        label.text = getHeaderText(section: section)
+        label.font = label.font.withSize(20.0)
+        label.sizeToFit()
+        label.frame = CGRect(x: 20, y: CGFloat(headerSize)/2 -  label.frame.height/2, width: label.frame.width, height: label.frame.height)
+        label.textColor = constants.globalColors.happyMainColor
+        view.addSubview(label)
+        return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat(headerSize)
+    }
+    
+    func getHeaderText(section: Int) -> String{
+        var date = NSDate()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.full
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.locale = NSLocale.current
+        var convertedDate = dateFormatter.string(from: date as Date).localizedCapitalized
+        if convertedDate == self.separatorWeekdays[section] {
+            return "Today"
+        } else {
+            let hoursToAddInSeconds: TimeInterval = 24 * 60 * 60 //one day from now
+            date = date.addingTimeInterval(hoursToAddInSeconds)
+            convertedDate = dateFormatter.string(from: date as Date).localizedCapitalized
+            if convertedDate == self.separatorWeekdays[section]{
+                return "Tomorrow"
+            }
+        }
+        return self.separatorWeekdays[section]
+
+    }
+    
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -294,16 +334,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if self.separatorShown[self.separatorWeekdays[section]] == false {
-            view.alpha = 0
-            let delay = (section > 4 ? 0 : 0.1*Double(section))
-            self.separatorShown[self.separatorWeekdays[section]] = true
-            UIView.animate(withDuration: 1, delay: delay, options: .curveEaseInOut , animations: {
-                view.alpha = 1
-            }) { (finished) in
-                
-            }
-        }
-    }
+
+    
+
 }
