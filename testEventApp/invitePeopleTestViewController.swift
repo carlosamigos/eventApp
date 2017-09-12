@@ -14,6 +14,8 @@ import FirebaseAuth
 var selectedFriends = [facebookFriend]()
 var selectedFriendsIds = [String]()
 
+var selectedGroups = [groupInformation]()
+
 
 class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UIGestureRecognizerDelegate {
 
@@ -43,7 +45,7 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     var longi: Double = 0.0
     var lati: Double = 0.0
     
-    var friendsClassRef: friendsCustomCollectionCell = friendsCustomCollectionCell()
+    var tripleFriendsClassRef: tripleFriendsCustomCollectionCell = tripleFriendsCustomCollectionCell()
     var groupClassRef: groupsCustomCollectionCell = groupsCustomCollectionCell()
     
     
@@ -66,7 +68,7 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         }
         collectionV.isPagingEnabled = true
 
-        collectionV?.register(friendsCustomCollectionCell.self, forCellWithReuseIdentifier: "friendsCustomCell")
+        collectionV?.register(tripleFriendsCustomCollectionCell.self, forCellWithReuseIdentifier: "friendsCustomCell")
         collectionV?.register(groupsCustomCollectionCell.self, forCellWithReuseIdentifier: "groupsCustomCell")
         
 
@@ -131,8 +133,8 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         var custom = UICollectionViewCell()
         //if indexpath = 0, then use the friends, otherwise groups
         if indexPath.row == 0 {
-            custom = collectionV.dequeueReusableCell(withReuseIdentifier: "friendsCustomCell", for: indexPath) as! friendsCustomCollectionCell
-            friendsClassRef = custom as! friendsCustomCollectionCell
+            custom = collectionV.dequeueReusableCell(withReuseIdentifier: "friendsCustomCell", for: indexPath) as! tripleFriendsCustomCollectionCell
+            tripleFriendsClassRef = custom as! tripleFriendsCustomCollectionCell
         } else {
             custom = collectionV.dequeueReusableCell(withReuseIdentifier: "groupsCustomCell", for: indexPath) as! groupsCustomCollectionCell
             groupClassRef = custom as! groupsCustomCollectionCell
@@ -155,8 +157,8 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     
     func filterContentForGroupSearch(searchName: String){
         //needs to be updated
-        globalFilteredGroups = globalGroups.filter({ (name) -> Bool in
-            return name.capitalized.contains(searchName.capitalized)
+        globalFilteredGroups = globalGroupsFromFirebase.filter({ (groupInfo) -> Bool in
+            return groupInfo.groupName.capitalized.contains(searchName.capitalized)
         })
     }
     
@@ -165,14 +167,14 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         if(currentPageString == friendsString){
             globalFilteredFriends = []
             //might be an error if classRef is not initiated yet
-            friendsClassRef.friendsList.reloadData()
+            tripleFriendsClassRef.friendsList.reloadData()
             if searchText.characters.count > 0 {
                 //update filtered friends
                 self.filterContentForFriendSearch(searchName: searchText)
             } else {
                 globalFilteredFriends = globalFriendsList
             }
-            friendsClassRef.friendsList.reloadData()
+            tripleFriendsClassRef.friendsList.reloadData()
         } else if(currentPageString == groupString) {
             globalFilteredGroups = []
             //might be an error if classRef is not initiated yet
@@ -181,7 +183,7 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
                 //update filtered groups
                 self.filterContentForGroupSearch(searchName: searchText)
             } else {
-                globalFilteredGroups = globalGroups
+                globalFilteredGroups = globalGroupsFromFirebase
             }
             groupClassRef.groupList.reloadData()
         }
@@ -226,9 +228,23 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
             childUpdates["/eventMembers/\(key)"] = postEventMembers
             self.ref.updateChildValues(childUpdates)
         })
+        resetSelectedFriendsAndGroups()
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
+        
     }
     
+    func resetSelectedFriendsAndGroups(){
+        
+        //reset friends
+        for cell in self.tripleFriendsClassRef.friendsList.visibleCells{
+            let cell2 = (cell as! friendsCell2)
+            cell2.firstFriendButton.sendActions(for: .touchDown)
+            cell2.secondFriendButton.sendActions(for: .touchDown)
+            cell2.thirdFriendButton.sendActions(for: .touchDown)
+            
+        }
+        
+    }
     
 
    

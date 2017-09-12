@@ -118,6 +118,9 @@ class LoginVC: UIViewController {
                 let feedAndGroupVC: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "feedAndGroup")
                 self.present(feedAndGroupVC, animated: true, completion: nil)
                 self.aivControl.stopAnimating()
+                
+                //load friends
+                updateFriendsList()
 
             } else {
                 //user is not signed in

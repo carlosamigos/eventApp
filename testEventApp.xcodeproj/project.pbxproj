@@ -45,6 +45,8 @@
 		61AA3BC01F6855C6000567CA /* groupsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BBF1F6855C6000567CA /* groupsCollectionView.swift */; };
 		61AA3BC21F685962000567CA /* globalLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BC11F685962000567CA /* globalLists.swift */; };
 		61AA3BC41F685AB7000567CA /* loadEventsFromFireBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BC31F685AB7000567CA /* loadEventsFromFireBase.swift */; };
+		61AA3BC71F6868EE000567CA /* tripleFriendsCustomCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BC61F6868EE000567CA /* tripleFriendsCustomCollectionCell.swift */; };
+		61AA3BC91F686943000567CA /* groupsCustomCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AA3BC81F686943000567CA /* groupsCustomCollectionCell.swift */; };
 		61DA095C1DDF99140059A01B /* GlobalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61DA095B1DDF99140059A01B /* GlobalConstants.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +91,8 @@
 		61AA3BBF1F6855C6000567CA /* groupsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupsCollectionView.swift; sourceTree = "<group>"; };
 		61AA3BC11F685962000567CA /* globalLists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = globalLists.swift; sourceTree = "<group>"; };
 		61AA3BC31F685AB7000567CA /* loadEventsFromFireBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loadEventsFromFireBase.swift; sourceTree = "<group>"; };
+		61AA3BC61F6868EE000567CA /* tripleFriendsCustomCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tripleFriendsCustomCollectionCell.swift; sourceTree = "<group>"; };
+		61AA3BC81F686943000567CA /* groupsCustomCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupsCustomCollectionCell.swift; sourceTree = "<group>"; };
 		61DA095B1DDF99140059A01B /* GlobalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalConstants.swift; sourceTree = "<group>"; };
 		A22EA3813E7CAA7E53B3C079 /* Pods-testEventApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testEventApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testEventApp/Pods-testEventApp.debug.xcconfig"; sourceTree = "<group>"; };
 		FF622AE473ED1F1C2753DBF0 /* Pods-testEventApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testEventApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-testEventApp/Pods-testEventApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -173,6 +177,8 @@
 				61710C681DAA7EA50003BE42 /* invitePeopleTestViewController.swift */,
 				61710C6C1DAABD950003BE42 /* friendsCell2.swift */,
 				615D16B01DC3DA0C001B9E6A /* groupCell.swift */,
+				61AA3BC61F6868EE000567CA /* tripleFriendsCustomCollectionCell.swift */,
+				61AA3BC81F686943000567CA /* groupsCustomCollectionCell.swift */,
 			);
 			name = "Invite People and Groups";
 			sourceTree = "<group>";
@@ -489,6 +495,7 @@
 				611B866A1F685491000ED0E5 /* eventsCollectionView.swift in Sources */,
 				619FCDF41F68481E00EE5E8A /* feedGroupCell.swift in Sources */,
 				61AA3BC41F685AB7000567CA /* loadEventsFromFireBase.swift in Sources */,
+				61AA3BC91F686943000567CA /* groupsCustomCollectionCell.swift in Sources */,
 				61197EA91DA67C5E0025AAC8 /* friendsCell.swift in Sources */,
 				615B6A661F5B3D34007D7CD1 /* groupInformation.swift in Sources */,
 				614235AD1DA00E780051390F /* timeSelector.swift in Sources */,
@@ -505,6 +512,7 @@
 				614235AF1DA0397F0051390F /* locationSelector.swift in Sources */,
 				611019D61D9EE6AD008420D0 /* settingsVC.swift in Sources */,
 				61197EB01DA7D0120025AAC8 /* facebookFriend.swift in Sources */,
+				61AA3BC71F6868EE000567CA /* tripleFriendsCustomCollectionCell.swift in Sources */,
 				615E65181DCDC547000D2264 /* segueFeedToEvent.swift in Sources */,
 				619915641D9A898200979D9C /* AppDelegate.swift in Sources */,
 				61AA3BC21F685962000567CA /* globalLists.swift in Sources */,

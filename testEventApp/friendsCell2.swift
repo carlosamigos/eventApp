@@ -187,6 +187,8 @@ class friendsCell2: UITableViewCell {
         thirdFriendButton.layer.borderColor = (thirdFriendButton.layer.borderColor == standardColor ) ? tapColor : standardColor
     }
     
+   
+    
 
     
 
