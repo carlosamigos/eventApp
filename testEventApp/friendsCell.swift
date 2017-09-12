@@ -60,7 +60,7 @@ class friendsCell: UITableViewCell {  // NOT USED ANYMORE
         
     }
     
-    func updateFriendsCell2(friend1: facebookFriend, friend2: facebookFriend){
+    func updatetripleFriendCell(friend1: facebookFriend, friend2: facebookFriend){
         updateButton(button: firstProPic,friend: friend1)
         updateButton(button: secondProPic, friend: friend2)
         thirdProPic.alpha = 0

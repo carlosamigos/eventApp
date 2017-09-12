@@ -1,5 +1,5 @@
 //
-//  friendsCell2.swift
+//  tripleFriendCell.swift
 //  testEventApp
 //
 //  Created by Carl Andreas Julsvoll on 09/10/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class friendsCell2: UITableViewCell { 
+class tripleFriendCell: UITableViewCell { 
     
     
     var friendsInCell = [facebookFriend]()
@@ -17,9 +17,9 @@ class friendsCell2: UITableViewCell {
     let standardColor = UIColor.white.cgColor
     let tapColor = constants.globalColors.happyMainColor.cgColor
     
-    var firstFriendButton = UIButton()
-    var secondFriendButton = UIButton()
-    var thirdFriendButton = UIButton()
+    var firstFriendButton: UIButton!
+    var secondFriendButton: UIButton!
+    var thirdFriendButton: UIButton!
     
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?){
@@ -47,13 +47,13 @@ class friendsCell2: UITableViewCell {
         addSubview(thirdFriendButton)
         
         
-        firstFriendButton.addTarget(self, action: #selector(friendsCell2.handleActionButton1), for: .touchUpInside)
-        secondFriendButton.addTarget(self, action: #selector(friendsCell2.handleActionButton2), for: .touchUpInside)
-        thirdFriendButton.addTarget(self, action: #selector(friendsCell2.handleActionButton3), for: .touchUpInside)
+        firstFriendButton.addTarget(self, action: #selector(tripleFriendCell.handleActionButton1), for: .touchUpInside)
+        secondFriendButton.addTarget(self, action: #selector(tripleFriendCell.handleActionButton2), for: .touchUpInside)
+        thirdFriendButton.addTarget(self, action: #selector(tripleFriendCell.handleActionButton3), for: .touchUpInside)
         
-        firstFriendButton.addTarget(self, action: #selector(friendsCell2.firstPicTapped), for: .touchDown)
-        secondFriendButton.addTarget(self, action: #selector(friendsCell2.secondPicTapped), for: .touchDown)
-        thirdFriendButton.addTarget(self, action: #selector(friendsCell2.thirdPicTapped), for: .touchDown)
+        firstFriendButton.addTarget(self, action: #selector(tripleFriendCell.firstPicTapped), for: .touchDown)
+        secondFriendButton.addTarget(self, action: #selector(tripleFriendCell.secondPicTapped), for: .touchDown)
+        thirdFriendButton.addTarget(self, action: #selector(tripleFriendCell.thirdPicTapped), for: .touchDown)
         
     }
     
@@ -108,7 +108,6 @@ class friendsCell2: UITableViewCell {
     
     
     func updateFriendsCell1(friend1: facebookFriend){
-        print(firstFriendButton)
         updateButton(button: firstFriendButton,friend: friend1)
         secondFriendButton.alpha = 0
         thirdFriendButton.alpha = 0
@@ -117,7 +116,7 @@ class friendsCell2: UITableViewCell {
     }
     
     
-    func updateFriendsCell2(friend1: facebookFriend, friend2: facebookFriend){
+    func updatetripleFriendCell(friend1: facebookFriend, friend2: facebookFriend){
         updateButton(button: firstFriendButton,friend: friend1)
         updateButton(button: secondFriendButton, friend: friend2)
         thirdFriendButton.alpha = 0
