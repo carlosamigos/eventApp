@@ -13,7 +13,7 @@ import FirebaseAuth
 class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
     
-    var eventCell = eventUICell2()
+    var eventCell = feedEventCell()
     var profilePicture = UIImageView()
     var eventPictureHeight = 150.0
     var eventTitle = UILabel()

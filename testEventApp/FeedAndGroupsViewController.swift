@@ -27,6 +27,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
 
     
     override func viewDidLoad() {
+        updateFriendsList()
         super.viewDidLoad()
         if FBSDKAccessToken.current() == nil {
             print("accesstoken in feed = nil ")
@@ -62,11 +63,11 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
     }
     
     //used for segue to eventinfo
-    var latestEventCell: eventUICell2!
+    var latestEventCell: feedEventCell!
     var latestEventCollectionCell: eventsCustomCollectionCell!
     var latestIndexPath: IndexPath!
     
-    func didClick(collectionCell:eventsCustomCollectionCell,eventCell: eventUICell2, indexPathInTableView: IndexPath){
+    func didClick(collectionCell:eventsCustomCollectionCell,eventCell: feedEventCell, indexPathInTableView: IndexPath){
         if var collectionIndex = feedAndGroupsCollectionView.indexPath(for: collectionCell){
             if var cellIndex = collectionCell.events.indexPath(for: eventCell){
                 //perform segue
@@ -83,9 +84,9 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         }
     }
     
-    func didClick(collectionCell:groupsHomeCustomCollectionCell,groupCell: groupCell){
+    func didClick(collectionCell:groupsHomeCustomCollectionCell,groupCell: feedGroupCell){
         if let collectionIndex = feedAndGroupsCollectionView.indexPath(for: collectionCell){
-            if let cellIndex = collectionCell.groupList.indexPath(for: groupCell){
+            if let cellIndex = collectionCell.groups.indexPath(for: groupCell){
                 print(collectionIndex.row,cellIndex.row)
                 //perform segue
             }
@@ -293,365 +294,12 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
 
 
 protocol eventsCustomCollectionCellDelegate : class{
-    func didClick(collectionCell:eventsCustomCollectionCell,eventCell: eventUICell2, indexPathInTableView: IndexPath)
+    func didClick(collectionCell:eventsCustomCollectionCell,eventCell: feedEventCell, indexPathInTableView: IndexPath)
 }
 
-class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, UITableViewDelegate {
-    
-    let events = UITableView()
-    
-    var eventsFromFirebase = [eventInformation]()
-    var eventCells = [eventUICell2]()
-    var pastEventCells = [eventUICell2]()
-    
-    private var ref: FIRDatabaseReference!
-    
-    weak var delegate : eventsCustomCollectionCellDelegate?
-    
-    override init(frame: CGRect){
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.white
-        self.events.separatorStyle = .singleLine
-        ref = FIRDatabase.database().reference()
-        events.delegate = self
-        events.dataSource = self
-        addSubview(events)
-        events.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
-        events.register(eventUICell2.self, forCellReuseIdentifier: "eventCell2")
-        events.reloadData()
-        //events.separatorColor = UIColor(colorLiteralRed: 255/255, green: 138/255, blue: 129/255, alpha: 1)
-        events.separatorStyle = .none
-        loadEvents()
-        
-        
-        let directions: [UISwipeGestureRecognizerDirection] = [.right, .left]
-        
-        let gesture = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(sender:)))
-        events.addGestureRecognizer(gesture)
-        
-    }
-        
-    func handleSwipe(sender: UISwipeGestureRecognizer){
-        print("Mo")
-    }
-    
-    
-    func loadEvents(){
-        let myGroup = DispatchGroup()
-        if FBSDKAccessToken.current() == nil{
-            return
-        }
-        if FBSDKAccessToken.current().userID != nil{
-            let uid = FIRAuth.auth()?.currentUser?.uid // FIRAuth.auth()?.currentUser?.uid, should also be forced unwrap ! on .child(uid!) underneathh
-            
-            
-            ref.child("user-events").child(uid!).queryOrdered(byChild: "time").observe( .childAdded, with: { snapshot in
-                if let value = snapshot.value as? NSDictionary {
-                    
-                    let title = value.object(forKey: "name") as! String
-                    let creator = value.object(forKey: "creator") as! String
-                    let picURL = "https://graph.facebook.com/\(creator)/picture?width=400"
-                    let address = value.object(forKey: "address") as! String
-                    let time = value.object(forKey: "time") as! String
-                    let description = value.object(forKey: "description") as! String
-                    var status = "NA"
-                    myGroup.enter()
-                    self.ref.child("eventMembers").child("\(snapshot.key)").observeSingleEvent(of: .value, with: { (snapshot) in
-                        
-                        // Get user value
-                        let value = snapshot.value as? NSDictionary
-
-                        status = value?["\(uid!)"] as! String
-                        self.events.reloadData()
-                        
-                        myGroup.leave()
-                        
-                        // ...
-                    }) { (error) in
-                        print(error.localizedDescription)
-                    }
-                    
-                    var attending = 1
-                    var weekday = "Today"
-                    myGroup.enter()
-                    self.ref.child("eventInfo").child("\(snapshot.key)").observeSingleEvent(of: .value, with: { (snapshot) in
-                        // Get user value
-                        
-                        let value = snapshot.value as? NSDictionary
-                        
-                        if let attending2 = value?["numberAttending"] {
-                            let att = attending2 as! Int
-                            attending = att
-                        }
-                        if let day = value?["weekday"] {
-                            weekday = day as! String
-                            
-                        }
-                        self.events.reloadData()
-                        myGroup.leave()
-                        
-                        // ...
-                    }) { (error) in
-                        print(error.localizedDescription)
-                    }
-                    
-                    //reason why it doesn't load at once is that the event is added before the data from Firebase is loaded
-                    
-                    myGroup.notify(queue: DispatchQueue.main, execute: {
-                        
-                        let newEvent = eventInformation(eventID: snapshot.key, title:title,picUrl: picURL,status: status,creatorID: creator,address: address, time: time, weekday: weekday, description: description,attending:attending)
-                        self.eventsFromFirebase.append(newEvent)
-                        self.setUpCell(newEventInfo: newEvent)
-                    })
-                    
-                }
-                
-            })
-        }
-      
-    }
-    
-    func setUpCell(newEventInfo: eventInformation){
-        let eventInfo = newEventInfo
-        let group = DispatchGroup()
-        group.enter()
-        let eventCell = eventUICell2()
-        eventCell.setupCell(eventInfo: eventInfo)
-        eventCell.updateCell(eventInformation: eventInfo,dispatchGroup:group)
-        
-        group.notify(queue: .main, execute: {
-            let today = Date()
-            if today.compare(eventCell.date) == .orderedDescending { //true if date before today
-                self.pastEventCells.append(eventCell)
-                self.pastEventCells.sort(by: { (cell1, cell2) -> Bool in
-                    return cell1.date.compare(cell2.date) == .orderedDescending
-                })
-            } else {
-                self.eventCells.append(eventCell)
-                self.eventCells.sort(by: { (cell1, cell2) -> Bool in
-                    return cell1.date.compare(cell2.date) == .orderedAscending
-                })
-            }
-            let secondGroup = DispatchGroup()
-            secondGroup.enter()
-            self.updateSeparatorDays(group: secondGroup)
-            secondGroup.notify(queue: .main, execute: { 
-                self.events.reloadData()
-            })
-        })
-
-    }
-    
-    var separatorWeekdays = [String]()
-    var separatorShown = [String: Bool]()
-    
-    func updateSeparatorDays(group: DispatchGroup){
-        var separatorDays = [String]()
-        for cell in eventCells{
-            let weekday = cell.weekDay
-            if separatorDays.contains(weekday) == false {
-                separatorDays.append(weekday)
-            }
-        }
-        if pastEventCells.count > 0 {
-            separatorDays.append("Past")
-        }
-        self.separatorWeekdays = separatorDays
-        
-        let keys = separatorShown.keys
-        for sepDay in separatorDays{
-            if !keys.contains(sepDay){
-                self.separatorShown[sepDay] = false
-            }
-        }
-        group.leave()
-    }
-    
-    
-    
-    // Table view functions from here
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        var potentialCells = [eventUICell2]()
-        let weekday = self.separatorWeekdays[indexPath.section]
-        if weekday != "Past" {
-            for cell in self.eventCells{
-                if cell.weekDay == weekday {
-                    potentialCells.append(cell)
-                }
-            }
-        } else {
-            for cell in self.pastEventCells{
-                potentialCells.append(cell)
-            }
-        }
-        return potentialCells[indexPath.row]
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didClick(collectionCell: self, eventCell: events.cellForRow(at: indexPath) as! eventUICell2, indexPathInTableView: indexPath)
-        events.deselectRow(at: indexPath, animated: true)
-
-    }
-    
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let hoursToAddInSeconds: TimeInterval = 24 * 60 * 60 //one day
-        var date = NSDate()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.full
-        dateFormatter.dateFormat = "EEEE"
-        dateFormatter.locale = NSLocale.current
-        var convertedDate = dateFormatter.string(from: date as Date).localizedCapitalized
-        if convertedDate == self.separatorWeekdays[section] {
-            return "Today"
-        } else {
-            date = date.addingTimeInterval(hoursToAddInSeconds)
-            convertedDate = dateFormatter.string(from: date as Date).localizedCapitalized
-            if convertedDate == self.separatorWeekdays[section]{
-                return "Tomorrow"
-            }
-        }
-        return self.separatorWeekdays[section]
-    }
-
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let weekday = self.separatorWeekdays[section]
-        var counter = 0
-        if weekday != "Past" {
-            for cell in self.eventCells{
-                if cell.weekDay == weekday{
-                    counter+=1
-                }
-            }
-        } else {
-            counter = self.pastEventCells.count
-        }
-        return counter
-        
-    }
-    
-
-    
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
-    }
-    
-    
-    
-    func numberOfSections(in tableView: UITableView) -> Int{
-        return self.separatorWeekdays.count
-    }
-    
-    
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        var index = 0
-        for i in 0..<indexPath.section {
-            index += self.events.numberOfRows(inSection: i)
-        }
-        index += indexPath.row
-        var eventCell = eventUICell2()
-        if index < self.eventCells.count {
-            eventCell = self.eventCells[index]
-        } else {
-            eventCell = self.pastEventCells[index-self.eventCells.count]
-        }
-        
-        if eventCell.shown == false {
-            let rotationTransform = CATransform3DTranslate(CATransform3DIdentity, -UIScreen.main.bounds.height, 0,0)
-            cell.layer.transform = rotationTransform
-            let delay = (indexPath.row > 4 ? 0 : 0.1*Double(indexPath.section)+0.05*Double(indexPath.row))
-            eventCell.shown = true
-            UIView.animate(withDuration: 1, delay: delay, options: .curveEaseInOut , animations: {
-                cell.layer.transform = CATransform3DIdentity
-                }) { (finished) in
-                    print(index)
-                    
-            }
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if self.separatorShown[self.separatorWeekdays[section]] == false {
-            view.alpha = 0
-            let delay = (section > 4 ? 0 : 0.1*Double(section))
-            self.separatorShown[self.separatorWeekdays[section]] = true
-            UIView.animate(withDuration: 1, delay: delay, options: .curveEaseInOut , animations: {
-                view.alpha = 1
-            }) { (finished) in
-                
-            }
-        }
-    }
-}
 
 
 protocol groupsCustomCollectionCellDelegate : class{
-    func didClick(collectionCell:groupsHomeCustomCollectionCell,groupCell: groupCell)
+    func didClick(collectionCell:groupsHomeCustomCollectionCell,groupCell: feedGroupCell)
 }
 
-class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, UITableViewDelegate {
-    
-    let groupList = UITableView()
-    
-    weak var delegate : groupsCustomCollectionCellDelegate?
-    
-    override init(frame: CGRect){
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.white
-        groupList.delegate = self
-        groupList.dataSource = self
-        addSubview(groupList)
-        groupList.frame = CGRect(x: 0, y: 0, width: self.frame.size.width, height: self.frame.size.height)
-        
-        groupList.keyboardDismissMode = .interactive
-        
-        groupList.register(groupCell.self, forCellReuseIdentifier: "groupCell")
-        
-        groupList.reloadData()
-        
-        groupList.separatorStyle = .none
-        
-    }
-    
-    //TODO: set size of table view
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didClick(collectionCell: self, groupCell: groupList.cellForRow(at: indexPath) as! groupCell)
-        
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return globalGroups.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
-        if let cell: groupCell = self.groupList.dequeueReusableCell(withIdentifier: "groupCell") as? groupCell {
-            cell.selectionStyle = UITableViewCellSelectionStyle.none
-            cell.textLabel?.text = globalGroups[indexPath.row]
-            return cell
-            
-        } else {
-            return UITableViewCell()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
-    }
-    
-    
-}

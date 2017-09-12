@@ -14,8 +14,6 @@ class nameAndDescription: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        updateFriendsList()
         titleField.delegate = self
         titleField.attributedPlaceholder = NSAttributedString(string:"Title",
                                                                attributes:[NSForegroundColorAttributeName: UIColor.white])

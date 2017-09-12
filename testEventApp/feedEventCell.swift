@@ -10,7 +10,7 @@ import UIKit
 import FirebaseDatabase
 import FirebaseStorage
 
-class eventUICell2: UITableViewCell { //Currently used
+class feedEventCell: UITableViewCell { //Currently used
     
     var profilePicture: UIImageView = UIImageView()
     var title: UILabel = UILabel()
