@@ -21,6 +21,7 @@ class nameAndDescription: UIViewController, UITextFieldDelegate {
         titleField.becomeFirstResponder()
         titleField.autocapitalizationType = .sentences
         titleField.frame = CGRect(x: 0, y: UIScreen.main.bounds.height/2-titleField.frame.height/2, width: UIScreen.main.bounds.width, height: titleField.frame.height)
+        titleField.returnKeyType = UIReturnKeyType.done
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
         self.view.addGestureRecognizer(panGestureRecognizer)

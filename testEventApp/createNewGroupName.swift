@@ -91,6 +91,7 @@ class createNewGroupName : UIViewController, UITextFieldDelegate {
         titleField.autocapitalizationType = .sentences
         titleField.frame = CGRect(x: UIScreen.main.bounds.width / 2 - UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height/2-100/2, width: UIScreen.main.bounds.width, height: 100)
         titleField.textAlignment = NSTextAlignment.center
+        titleField.returnKeyType = UIReturnKeyType.done
     }
     
     func dismissKeyboard(){
