@@ -232,8 +232,8 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = UIColor.white
+        var blur = UIBlurEffect(style: .extraLight)
+        let view = UIVisualEffectView(effect: blur)
         let label = UILabel()
         label.text = getHeaderText(section: section)
         label.font = label.font.withSize(20.0)
