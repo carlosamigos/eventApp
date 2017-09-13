@@ -59,8 +59,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
             
             
             ref.child("user-events").child(uid!).queryOrdered(byChild: "time").observe( .childAdded, with: { snapshot in
-                if let value = snapshot.value as? NSDictionary {
-                    
+                if let value = snapshot.value as? NSDictionary {                    
                     let title = value.object(forKey: "name") as! String
                     let creator = value.object(forKey: "creator") as! String
                     let picURL = "https://graph.facebook.com/\(creator)/picture?width=400"

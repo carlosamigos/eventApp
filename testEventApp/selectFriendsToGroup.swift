@@ -204,7 +204,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
                 let value = snapshot.value as? NSDictionary
                 if (value?.allKeys.count)! > 0{
                     //update groupMembers and user-groups
-                    postGroupMembers["\((value?["firebaseID"])!)"] = "NA"
+                    postGroupMembers["\((value?["firebaseID"])!)"] = "IN"
                     
                     //add to childUpdates: "/user-events/\(uid!)/\(key)/": postPrivate
                     

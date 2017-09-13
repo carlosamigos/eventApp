@@ -15,6 +15,9 @@ class createNewGroupName : UIViewController, UITextFieldDelegate {
     var backButton: UIButton!
 
     override func viewDidLoad() {
+        for group in globalGroupsFromFirebase{
+            print(group.groupMemberFirebaseIDs.count)
+        }
         super.viewDidLoad()
         prepareTitleField()
         prepareBackButton()

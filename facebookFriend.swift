@@ -7,20 +7,26 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
 
 class facebookFriend {
 
     var fullName: String!
     var facebookID: String!
+    var firebaseID: String!
 //    var firebaseID: String!
     var profilePicture = UIImage()
     var selected = false
+    
+    private var ref: FIRDatabaseReference!
 
     
     init(fullName: String,facebookID: String){ //should add firebaseID: String
+        ref = FIRDatabase.database().reference()
         self.fullName = fullName
         self.facebookID = facebookID
-//        self.firebaseID = firebaseID
+        updateFirebaseID()
         
         //download image from Firebase database - when we are sure everyone has added their picture - not the case with Anders
         
@@ -46,7 +52,16 @@ class facebookFriend {
         })
         
     }
-
+    
+    func updateFirebaseID(){
+        self.ref.child("facebookUser").child(self.facebookID).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let value = snapshot.value as? NSDictionary {
+                let firebaseID = value.object(forKey: "firebaseID") as! String
+                self.firebaseID = firebaseID
+                firebaseIDtoFacebookID[firebaseID] = self.facebookID
+            }
+        })
+    }
 }
 
 
