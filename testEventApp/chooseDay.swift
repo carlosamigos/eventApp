@@ -18,9 +18,8 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
     var weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
     var todaysWeekday: String = ""
     var eventTitle: String = ""
-    
-    
-    
+    var panGestureRecognizer: UIPanGestureRecognizer!
+
      let ref = FIRDatabase.database().reference()
     
     override func viewDidLoad() {
@@ -28,6 +27,8 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
         picker.dataSource = self
         picker.delegate = self
         fixPickerData()
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
     }
 
     @IBAction func nextButtonPressed(_ sender: AnyObject) {
@@ -93,7 +94,6 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
     
     func getDateFromWeekday(weekday: String) -> Date {
         // use self.weekdays
-        print(weekday)
         var daysForward: Int = 0
         if weekday == "Next" || weekday == "Today" {
             daysForward = 0
@@ -138,6 +138,27 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
         nextButton.setTitle(pickerData[row], for: UIControlState.normal)
     }
     
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            backBtnPressed(self)
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    backBtnPressed(self)
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                }
+            }
+        }
+    }
     
     
     

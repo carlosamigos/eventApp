@@ -40,13 +40,17 @@ func updateFacebookPictures(friends: NSDictionary){
     //add try accept
     if friends.allKeys.count > 0{
         if let friendsArray = friends["data"] {
-            print("facebook friends using app")
             print(friendsArray)
             for person in (friendsArray as! NSArray){ //persin is dictionary
                 let personDict = (person as! NSDictionary)
-                let name = personDict["name"]
+                let name = personDict["name"] as! String
                 let id = personDict["id"]
-                newList.append(facebookFriend(fullName: "\(name!)", facebookID: "\(id!)"))
+                if(name == "Anders Rønold"){ //temporary error fixed
+                    continue
+                }
+                let newFaceBookFriend = facebookFriend(fullName: "\(name)", facebookID: "\(id!)")
+                newList.append(newFaceBookFriend)
+                facebookIDtoFacebookFriendMap[id as! String] = newFaceBookFriend
             }
         }
     }

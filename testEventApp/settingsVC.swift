@@ -15,12 +15,10 @@ class settingsVC: UIViewController {
 
     //TODO: make user able to adjust profile picture to own face
     
+    var panGestureRecognizer: UIPanGestureRecognizer!
+
     @IBOutlet weak var profilePictureView: UIImageView!
-    
-    
     @IBOutlet weak var usersName: UILabel!
-    
-    
     @IBAction func signOutFromFBClicked(_ sender: AnyObject) {
         
         // sign out from firebase
@@ -51,6 +49,8 @@ class settingsVC: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
         let storage = FIRStorage.storage()
         let storageRef = storage.reference(forURL: "gs://testeventapp-cd7d2.appspot.com")
         if let user = FIRAuth.auth()?.currentUser {
@@ -102,6 +102,29 @@ class settingsVC: UIViewController {
     @IBAction func backButtonClicked(_ sender: AnyObject) {
         self.dismiss(animated: true, completion: {});
     }
+    
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            backButtonClicked(self)
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    backButtonClicked(self)
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                }
+            }
+        }
+    }
+
 
     
 

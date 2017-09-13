@@ -26,6 +26,7 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     var addressPin = UIImageView()
     var numberAttending: UILabel = UILabel()
     var peoplePic = UIImageView()
+    var messageCurtain = UIView()
     
     let ref = FIRDatabase.database().reference()
     
@@ -57,13 +58,14 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         setUpCollectionView()
         setupAttendingNumber()
         setupAddressAndPin()
-        setupMessages()
         setupDivider()
         setupEventPicture()
         setupEventTitleAndEventTime()
         setUpProfilePicture()
         setUpBackButton()
         setUpPeoplePicture()
+        setUpMessageCurtain()
+        setupMessages()
         
     }
     
@@ -86,11 +88,33 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     
     func setupMessages(){
         //add messages - height depends on last message!!
-        self.messageImageView = UIImageView(frame: CGRect(x: (self.hasNotRespondedYet ? -UIScreen.main.bounds.width:0.0), y: UIScreen.main.bounds.height-self.attendingButtonHeight-self.dividerHeight-self.attendingButtonHeight, width: UIScreen.main.bounds.width, height: self.attendingButtonHeight))
-        self.messageImageView.image = #imageLiteral(resourceName: "messageTest")
-        self.messageImageView.clipsToBounds = true
+        self.messageImageView = UIImageView(image: #imageLiteral(resourceName: "iphone conversation"))
+        self.messageImageView.frame = CGRect(x: (self.hasNotRespondedYet ? -UIScreen.main.bounds.width:0.0), y: UIScreen.main.bounds.height-self.attendingButtonHeight-self.dividerHeight-self.attendingButtonHeight - 550, width: UIScreen.main.bounds.width, height:  700)
+        self.messageImageView.image = #imageLiteral(resourceName: "iphone conversation")
+//        self.messageImageView.clipsToBounds = true
         self.messageImageView.contentMode = UIViewContentMode.scaleAspectFit
         self.view.addSubview(self.messageImageView)
+        self.view.sendSubview(toBack: self.messageImageView)
+    }
+    
+    func setUpMessageCurtain(){
+        self.messageCurtain = UIView(frame: CGRect(x: 0.0, y: 100, width: UIScreen.main.bounds.width, height: 380))
+        self.messageCurtain.backgroundColor = UIColor.clear
+        self.view.addSubview(self.messageCurtain)
+        self.view.sendSubview(toBack: self.messageCurtain)
+        
+        
+        let mask = CAGradientLayer()
+        mask.frame = self.messageCurtain.frame
+        mask.startPoint = CGPoint(x: 0.0, y: 0.0)
+        mask.endPoint = CGPoint(x: 0.0, y: 1.0)
+        mask.locations = [ (0.5), (0.7)]
+        mask.colors = [ (UIColor(white: 1.0, alpha: 1.0).cgColor), (UIColor(white: 1.0, alpha: 0.0).cgColor)]
+        self.messageCurtain.layer.addSublayer(mask)
+        
+        
+        
+        
     }
     
     func setupDivider(){
@@ -366,7 +390,6 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
                 updateStatusInFirebase(withString: "IN")
                 self.attendingCollectionView.backgroundColor = constants.globalColors.happyMainColor
                 UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
-                    print(self.messageImageView)
                     self.messageImageView.frame = CGRect(x: 0, y: self.messageImageView.frame.minY, width: self.messageImageView.frame.width, height: self.messageImageView.frame.height)
                     }, completion: nil)
             }
@@ -411,8 +434,6 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
             }
            
         }
-        
-    
     }
     
     
@@ -424,7 +445,6 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         }
     }
     
- 
     
     func handleActionBackButton(){
         //removeFromParentViewController()
@@ -472,17 +492,6 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         })
         
         self.performSegue(withIdentifier: "segueEventToFeedDeletedEvent", sender: self)
-        
-        
-        
-        
-        
-        
-        
-        
-       
-        
-        
         
     }
 }

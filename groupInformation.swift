@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseAuth
 
 
 class groupInformation {
@@ -14,18 +16,27 @@ class groupInformation {
     let groupId: String!
     let groupCreator: String!
     var groupName: String!
-    var groupMembers: [facebookFriend]
+    var groupMemberFirebaseIDs: [String]
+    private var ref: FIRDatabaseReference!
     
     init(groupId: String, groupCreator: String, groupName: String) {
+        ref = FIRDatabase.database().reference()
         self.groupId = groupId
         self.groupCreator = groupCreator
         self.groupName = groupName
-        self.groupMembers = []
+        self.groupMemberFirebaseIDs = [String]()
+        addMembers()
+        
     }
     
-    public func addMember(facebookFriend: facebookFriend ){
-        groupMembers.append(facebookFriend)
+    func addMembers(){
+        ref.child("groupInfo").child(groupId).child("groupMembers").observe(.childAdded, with: { (snapshot) in
+            let firebaseKey = snapshot.key as! String
+            self.groupMemberFirebaseIDs.append(firebaseKey)
+            
+        })
     }
+    
     
     
 }

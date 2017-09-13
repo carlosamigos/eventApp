@@ -19,18 +19,13 @@ var selectedGroups = [groupInformation]()
 
 class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UIGestureRecognizerDelegate {
 
-    
-    //TODO: add that the keyboard disappears when search is clicked.
-    
     @IBOutlet weak var collectionV: UICollectionView!
-    
     @IBOutlet weak var nextBtn: UIButton!
-    
     @IBOutlet weak var searchBar: UISearchBar!
-    
     @IBOutlet weak var inviteFriendsLabel: UILabel!
-    
     private var ref: FIRDatabaseReference!
+    var panGestureRecognizer: UIPanGestureRecognizer!
+
     
     let friendsString = "friends"
     let groupString = "groups"
@@ -70,6 +65,8 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
 
         collectionV?.register(tripleFriendsCustomCollectionCell.self, forCellWithReuseIdentifier: "friendsCustomCell")
         collectionV?.register(groupsCustomCollectionCell.self, forCellWithReuseIdentifier: "groupsCustomCell")
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
         
 
     }
@@ -231,6 +228,28 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         resetSelectedFriendsAndGroups(tripleFriendsClassRef: self.tripleFriendsClassRef)
         UIApplication.shared.setStatusBarHidden(false, with: .fade)
         
+    }
+    
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            handleActionBackButton()
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    handleActionBackButton()
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                }
+            }
+        }
     }
     
         

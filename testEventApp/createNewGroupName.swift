@@ -13,12 +13,16 @@ class createNewGroupName : UIViewController, UITextFieldDelegate {
     
     var titleField: UITextField!
     var backButton: UIButton!
+    var panGestureRecognizer: UIPanGestureRecognizer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareTitleField()
         prepareBackButton()
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
+        
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
     
     }
     
@@ -45,6 +49,28 @@ class createNewGroupName : UIViewController, UITextFieldDelegate {
     }
     
 
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            handleActionBackButton()
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    handleActionBackButton()
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                    titleField.becomeFirstResponder()
+                }
+            }
+        }
+    }
     
     
     func handleActionBackButton(){
@@ -65,15 +91,13 @@ class createNewGroupName : UIViewController, UITextFieldDelegate {
         titleField.autocapitalizationType = .sentences
         titleField.frame = CGRect(x: UIScreen.main.bounds.width / 2 - UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height/2-100/2, width: UIScreen.main.bounds.width, height: 100)
         titleField.textAlignment = NSTextAlignment.center
+        titleField.returnKeyType = UIReturnKeyType.done
     }
     
     func dismissKeyboard(){
         self.view.endEditing(true)
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
 
 
 }

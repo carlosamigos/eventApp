@@ -11,6 +11,7 @@ import UIKit
 class nameAndDescription: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var titleField: UITextField!
+    var panGestureRecognizer: UIPanGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,15 +21,38 @@ class nameAndDescription: UIViewController, UITextFieldDelegate {
         titleField.becomeFirstResponder()
         titleField.autocapitalizationType = .sentences
         titleField.frame = CGRect(x: 0, y: UIScreen.main.bounds.height/2-titleField.frame.height/2, width: UIScreen.main.bounds.width, height: titleField.frame.height)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(nameAndDescription.dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
+        titleField.returnKeyType = UIReturnKeyType.done
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
         
     }
-
-    func dismissKeyboard(){
-        self.view.endEditing(true)
+    
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        view.endEditing(true)
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            backBtnPressed(self)
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    backBtnPressed(self)
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                    titleField.becomeFirstResponder()
+                }
+            }
+        }
     }
+
+
     
     @IBAction func backBtnPressed(_ sender: AnyObject) {
         self.view.endEditing(true)
