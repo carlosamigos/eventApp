@@ -36,7 +36,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
     let friendsString = "friends"
     let groupString = "groups"
     var currentPageString: String!
-    
+    var panGestureRecognizer: UIPanGestureRecognizer!
     
     var tripleFriendsClassRef: tripleFriendsCustomCollectionCell = tripleFriendsCustomCollectionCell()
     var groupClassRef: groupsCustomCollectionCell = groupsCustomCollectionCell()
@@ -63,8 +63,34 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
         collectionV?.register(groupsCustomCollectionCell.self, forCellWithReuseIdentifier: "groupsCustomCell")
         prepareBackButton()
         
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
+
         
     }
+    
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            handleActionBackButton()
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    handleActionBackButton()
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                }
+            }
+        }
+    }
+
     
     func prepareBackButton(){
         //backbutton

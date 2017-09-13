@@ -15,9 +15,12 @@ struct constants {
     struct globalColors {
         
         static let happyMainColor = UIColor(hex: "ff7153")
-        
-        
-        
+    
+    }
+    
+    struct gestureConstants {
+        static let gestureRemoveViewSpeed = CGFloat(1300)
+        static let getureRemoveThreshold = CGFloat(0.33)
     }
     
 }

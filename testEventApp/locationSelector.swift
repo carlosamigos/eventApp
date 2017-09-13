@@ -30,6 +30,7 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
     var address: String = ""
     var longi: Double = 0.0
     var lati: Double = 0.0
+    var panGestureRecognizer: UIPanGestureRecognizer!
 
     
     // TODO: Make time and date get into this view as well
@@ -49,8 +50,9 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
         } else {
             locationManager!.requestWhenInUseAuthorization()
         }
-        
         self.mapView.showsUserLocation = true
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
+        self.view.addGestureRecognizer(panGestureRecognizer)
         
     }
     
@@ -153,6 +155,28 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
         secondVC.longi = longi
         
         
+    }
+    
+    func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+        view.frame.origin = CGPoint(x: 0, y: max(translation.y, 0) )
+        if(translation.y > UIScreen.main.bounds.height * constants.gestureConstants.getureRemoveThreshold){
+            view.removeGestureRecognizer(self.panGestureRecognizer)
+            backBtnPressed(self)
+        } else {
+            let velocity = gesture.velocity(in: view)
+            if gesture.state == .ended{
+                if velocity.y >= constants.gestureConstants.gestureRemoveViewSpeed {
+                    view.removeGestureRecognizer(self.panGestureRecognizer)
+                    backBtnPressed(self)
+                }
+                else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin = CGPoint(x: 0, y: 0)
+                    })
+                }
+            }
+        }
     }
 
 

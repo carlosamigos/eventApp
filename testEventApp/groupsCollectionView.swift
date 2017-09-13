@@ -16,7 +16,6 @@ import FBSDKCoreKit
 class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, UITableViewDelegate {
     
     let groups = UITableView()
-    var groupCells = [feedGroupCell]()
     private var ref: FIRDatabaseReference!
     weak var delegate : groupsCustomCollectionCellDelegate?
     var groupsLoaded = false;
@@ -33,13 +32,8 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
         groups.register(feedGroupCell.self, forCellReuseIdentifier: "feedGroupCell")
         groups.reloadData()
         groups.separatorStyle = .none
-        if(groupsLoaded == false){
-            groupsLoaded = true
-            loadGroups()
-        }
+        loadGroups()
         groups.reloadData()
-        
-        
     }
     
     //TODO: set size of table view
@@ -61,9 +55,12 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
         if let cell: feedGroupCell = self.groups.dequeueReusableCell(withIdentifier: "feedGroupCell") as? feedGroupCell {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.textLabel?.text = globalGroupsFromFirebase[indexPath.row].groupName
+            print(globalGroupsFromFirebase[indexPath.row].groupName)
+            print(globalGroupsFromFirebase.count)
             return cell
             
         } else {
+            print("something is wrong")
             return UITableViewCell()
         }
     }
@@ -88,12 +85,12 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
                     let groupId = value.object(forKey: "groupId") as! String
                     let group = groupInformation(groupId: groupId, groupCreator: groupCreator, groupName: groupName)
                     //add members
+                    self.groups.reloadData()
                     if(groupsIdMap[groupId] == nil){
                         globalGroupsFromFirebase.append(group)
                         groupsIdMap[groupId] = true
                         self.groups.reloadData()
                         print("group added ", value)
-                        print(self.groupCells.count)
                         print(globalGroupsFromFirebase.count)
                     }
                 }
