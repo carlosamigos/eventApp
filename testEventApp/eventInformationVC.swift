@@ -98,7 +98,7 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     }
     
     func setUpMessageCurtain(){
-        self.messageCurtain = UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 480))
+        self.messageCurtain = UIView(frame: CGRect(x: 0.0, y: 100, width: UIScreen.main.bounds.width, height: 380))
         self.messageCurtain.backgroundColor = UIColor.clear
         self.view.addSubview(self.messageCurtain)
         self.view.sendSubview(toBack: self.messageCurtain)
@@ -108,8 +108,8 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
         mask.frame = self.messageCurtain.frame
         mask.startPoint = CGPoint(x: 0.0, y: 0.0)
         mask.endPoint = CGPoint(x: 0.0, y: 1.0)
-        mask.locations = [ (0.75), (1.0)]
-        mask.colors = [ (UIColor(white: 1.0, alpha: 1.0).cgColor as? Any), (UIColor(white: 1.0, alpha: 0.0).cgColor as? Any)]
+        mask.locations = [ (0.5), (0.7)]
+        mask.colors = [ (UIColor(white: 1.0, alpha: 1.0).cgColor), (UIColor(white: 1.0, alpha: 0.0).cgColor)]
         self.messageCurtain.layer.addSublayer(mask)
         
         
