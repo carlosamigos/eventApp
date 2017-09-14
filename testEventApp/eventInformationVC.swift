@@ -27,6 +27,7 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     var numberAttending: UILabel = UILabel()
     var peoplePic = UIImageView()
     var messageCurtain = UIView()
+    var tempButtonToMessages = UIButton()
     
     let ref = FIRDatabase.database().reference()
     
@@ -88,14 +89,34 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     
     func setupMessages(){
         //add messages - height depends on last message!!
+        
         self.messageImageView = UIImageView(image: #imageLiteral(resourceName: "iphone conversation"))
         self.messageImageView.frame = CGRect(x: (self.hasNotRespondedYet ? -UIScreen.main.bounds.width:0.0), y: UIScreen.main.bounds.height-self.attendingButtonHeight-self.dividerHeight-self.attendingButtonHeight - 550, width: UIScreen.main.bounds.width, height:  700)
         self.messageImageView.image = #imageLiteral(resourceName: "iphone conversation")
 //        self.messageImageView.clipsToBounds = true
         self.messageImageView.contentMode = UIViewContentMode.scaleAspectFit
         self.view.addSubview(self.messageImageView)
+        
+        
+        self.tempButtonToMessages.frame = self.messageImageView.frame
+        self.tempButtonToMessages.backgroundColor = UIColor.clear
+        self.view.addSubview(tempButtonToMessages)
+        self.view.sendSubview(toBack: tempButtonToMessages)
         self.view.sendSubview(toBack: self.messageImageView)
+        self.tempButtonToMessages.addTarget(self, action: #selector(handleMessageButton), for: .touchUpInside)
+        
     }
+    
+    func handleMessageButton(){
+        
+        performSegue(withIdentifier: "eventToChatSegue", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! eventChatViewController
+        dest.event = eventCell.eventInformation
+    }
+    
     
     func setUpMessageCurtain(){
         self.messageCurtain = UIView(frame: CGRect(x: 0.0, y: 100, width: UIScreen.main.bounds.width, height: 380))

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class eventInformation {
     
@@ -22,6 +23,10 @@ class eventInformation {
     var description: String!
     var attending: Int!
     
+    var messages = [eventMessage]()
+    
+    var chatListener: eventChatViewController!
+    
     
     init(eventID: String,title: String,picUrl: String, status:String, creatorID: String, address: String, time: String,weekday: String, description: String, attending: Int){
         
@@ -34,6 +39,29 @@ class eventInformation {
         self.timeYYYYMMDDHHMM = time
         self.description = description
         self.attending = attending
-        self.weekday = weekday        
+        self.weekday = weekday
+        observeMessages()
     }
+    
+    func observeMessages(){
+        let ref = FIRDatabase.database().reference().child("eventMessages").child(self.eventID).observe(.childAdded, with: { snapshot in
+            if let value = snapshot.value as? NSDictionary {
+                let newMessage = eventMessage(senderId: value.object(forKey: "userId") as! String, eventId: self.eventID, timeStamp: value.object(forKey: "time") as! String, text: value.object(forKey: "text") as! String)
+                self.messages.append(newMessage)
+                if(self.chatListener != nil){
+                    self.updateChatListener()
+                }
+            }
+        })
+    }
+    
+    func addChatListener(listener: eventChatViewController){
+        self.chatListener = listener
+    }
+    
+    func updateChatListener(){
+        chatListener.messageTable.reloadData()
+    }
+    
+    
 }
