@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		32EC4ADB78970FF3F4AB736A /* Pods_testEventApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B09C18D1AB3B4582B2DF6B5 /* Pods_testEventApp.framework */; };
+		6103679A1F6A87350017847F /* eventChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610367991F6A87350017847F /* eventChatViewController.swift */; };
+		6103679C1F6A96870017847F /* eventMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6103679B1F6A96870017847F /* eventMessage.swift */; };
 		611019D41D9EE39A008420D0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 611019D31D9EE39A008420D0 /* GoogleService-Info.plist */; };
 		611019D61D9EE6AD008420D0 /* settingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611019D51D9EE6AD008420D0 /* settingsVC.swift */; };
 		61160F361DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61160F351DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift */; };
@@ -53,6 +55,8 @@
 
 /* Begin PBXFileReference section */
 		4B09C18D1AB3B4582B2DF6B5 /* Pods_testEventApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testEventApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		610367991F6A87350017847F /* eventChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventChatViewController.swift; sourceTree = "<group>"; };
+		6103679B1F6A96870017847F /* eventMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = eventMessage.swift; sourceTree = "<group>"; };
 		611019D31D9EE39A008420D0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		611019D51D9EE6AD008420D0 /* settingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = settingsVC.swift; sourceTree = "<group>"; };
 		61160F351DCB8EF5001B86F3 /* FeedAndGroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAndGroupsViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +120,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		610367981F6A87030017847F /* eventChat */ = {
+			isa = PBXGroup;
+			children = (
+				610367991F6A87350017847F /* eventChatViewController.swift */,
+			);
+			name = eventChat;
+			sourceTree = "<group>";
+		};
 		61197E9F1DA66B260025AAC8 /* Create Event */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +242,7 @@
 		611B86661F684F86000ED0E5 /* FeedEvent */ = {
 			isa = PBXGroup;
 			children = (
+				610367981F6A87030017847F /* eventChat */,
 				615E651B1DCDF37A000D2264 /* eventInformationVC.swift */,
 				615E65171DCDC547000D2264 /* segueFeedToEvent.swift */,
 			);
@@ -278,6 +291,7 @@
 				612200451DA2FB290065E449 /* eventInformation.swift */,
 				61197EAF1DA7D0120025AAC8 /* facebookFriend.swift */,
 				615B6A651F5B3D34007D7CD1 /* groupInformation.swift */,
+				6103679B1F6A96870017847F /* eventMessage.swift */,
 			);
 			name = Models;
 			path = ..;
@@ -503,10 +517,12 @@
 				615B6A661F5B3D34007D7CD1 /* groupInformation.swift in Sources */,
 				614235AD1DA00E780051390F /* timeSelector.swift in Sources */,
 				616F5B231F56B0DF006DC916 /* selectFriendsToGroup.swift in Sources */,
+				6103679A1F6A87350017847F /* eventChatViewController.swift in Sources */,
 				61710C691DAA7EA50003BE42 /* invitePeopleTestViewController.swift in Sources */,
 				61AA3BC01F6855C6000567CA /* groupsCollectionView.swift in Sources */,
 				619915661D9A898200979D9C /* LoginVC.swift in Sources */,
 				61160F381DCB9EA8001B86F3 /* feedEventCell.swift in Sources */,
+				6103679C1F6A96870017847F /* eventMessage.swift in Sources */,
 				615E651E1DCE255C000D2264 /* pullDownToDismissAnimator.swift in Sources */,
 				61710C5F1DAA642C0003BE42 /* dataSource.swift in Sources */,
 				61197E9E1DA66B210025AAC8 /* selectFriends.swift in Sources */,

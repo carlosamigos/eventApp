@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Pzs-9U-AJd">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -346,12 +346,31 @@
                     <connections>
                         <segue destination="icV-sI-QKi" kind="unwind" identifier="segueEventToFeed" unwindAction="unwindToFeedWithSegue:" id="1fk-tG-L1j"/>
                         <segue destination="icV-sI-QKi" kind="unwind" identifier="segueEventToFeedDeletedEvent" unwindAction="unwindToFeedWithDeletedEventWithSegue:" id="W2p-59-oEu"/>
+                        <segue destination="caL-zO-3Mg" kind="presentation" identifier="eventToChatSegue" modalPresentationStyle="overCurrentContext" id="GQH-Nc-Xuh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bTd-mq-lDG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="icV-sI-QKi" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2025" y="-564"/>
+        </scene>
+        <!--Event Chat View Controller-->
+        <scene sceneID="uJm-FY-NiZ">
+            <objects>
+                <viewController id="caL-zO-3Mg" customClass="eventChatViewController" customModule="testEventApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1TK-7C-eqM"/>
+                        <viewControllerLayoutGuide type="bottom" id="Iuu-ew-1r6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GFS-5d-TUO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ii-Vj-wC3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2984" y="-568"/>
         </scene>
         <!--Name And Description-->
         <scene sceneID="6ic-H8-Pt4">
@@ -786,7 +805,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="geoTag0.2x" translatesAutoresizingMaskIntoConstraints="NO" id="oCE-c5-ujH">
-                                <rect key="frame" x="149" y="284.5" width="78" height="39"/>
+                                <rect key="frame" x="149" y="285" width="78" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="bCI-1M-3dp"/>
                                     <constraint firstAttribute="width" constant="78" id="tPF-IH-5mh"/>

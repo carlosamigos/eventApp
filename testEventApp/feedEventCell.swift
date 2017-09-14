@@ -20,6 +20,7 @@ class feedEventCell: UITableViewCell { //Currently used
     var attending = "NA"
     var eventID = ""
     var creatorID = ""
+    var eventInformation: eventInformation!
     
     
     let ref = FIRDatabase.database().reference()
@@ -40,6 +41,7 @@ class feedEventCell: UITableViewCell { //Currently used
     
     
     func setupCell(eventInfo: eventInformation){
+        self.eventInformation = eventInfo
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd, HH:mm" //format 2016/11/8, 13:30
         var date = dateFormatter.date(from: eventInfo.timeYYYYMMDDHHMM)
