@@ -104,6 +104,7 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
         
         textField.text = text
         textField.font = textField.font!.withSize(20)
+        textField.isEditable = false
         textField.textAlignment = (FIRAuth.auth()?.currentUser?.uid==event.creatorID ? .right : .left)
         cell.addSubview(textField)
         textField.clipsToBounds = true
@@ -122,7 +123,9 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
     
     func handleSendButton(){
         let currentDateTime = Date()
-        
+        if(inputTextField.text!.characters.count == 0){
+            return
+        }
         // initialize the date formatter and set the style
         let formatter = DateFormatter()
         formatter.timeStyle = .medium
