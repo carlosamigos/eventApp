@@ -75,6 +75,7 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
         messageTable.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         messageTable.backgroundColor = UIColor.white
         messageTable.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height-bottomContainerView.frame.height)
+        messageTable.contentInset = UIEdgeInsetsMake(8, 0, 58, 0)
         view.addSubview(messageTable)
         view.sendSubview(toBack: messageTable)
         
