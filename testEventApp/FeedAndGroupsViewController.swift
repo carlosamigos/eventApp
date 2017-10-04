@@ -34,12 +34,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
             //go back to login screen
             self.performSegue(withIdentifier: "feedGroupToLogin", sender: nil)
         }
-        UIApplication.shared.isStatusBarHidden = false
         self.groupsLabel.alpha = 0
-        
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
-        
-
         feedAndGroupsCollectionView.dataSource = self
         feedAndGroupsCollectionView.delegate = self
         
@@ -60,6 +55,10 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
             self.view.addGestureRecognizer(gesture)
         }
         
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return false
     }
     
     //used for segue to eventinfo
@@ -256,8 +255,6 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
     @IBAction func unwindToFeedWithDeletedEvent(segue: UIStoryboardSegue) {
         
         let child = self.childViewControllers[0] as! eventInformationVC
-        
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         let index = self.latestEventCollectionCell.eventCells.index(of: self.latestEventCell)
         self.latestEventCollectionCell.eventCells.remove(at: index! as! Int)
         

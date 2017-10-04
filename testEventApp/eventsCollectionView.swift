@@ -52,6 +52,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     func loadEvents(){
         let myGroup = DispatchGroup()
         if FBSDKAccessToken.current() == nil{
+            print("something is wrong with logging in with facebook")
             return
         }
         if FBSDKAccessToken.current().userID != nil{

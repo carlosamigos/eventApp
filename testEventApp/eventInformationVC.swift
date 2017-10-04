@@ -113,8 +113,13 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let dest = segue.destination as! eventChatViewController
-        dest.event = eventCell.eventInformation
+        if(segue.identifier == "eventToChatSegue"){
+            let dest = segue.destination as! eventChatViewController
+            dest.event = eventCell.eventInformation
+        } else if(segue.identifier == "segueEventToFeed"){
+            //halla
+        }
+        
     }
     
     
