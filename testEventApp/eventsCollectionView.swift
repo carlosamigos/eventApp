@@ -37,8 +37,6 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         events.separatorStyle = .none
         loadEvents()
         
-        let directions: [UISwipeGestureRecognizerDirection] = [.right, .left]
-        
         let gesture = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(sender:)))
         events.addGestureRecognizer(gesture)
         
@@ -232,7 +230,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        var blur = UIBlurEffect(style: .extraLight)
+        let blur = UIBlurEffect(style: .extraLight)
         let view = UIVisualEffectView(effect: blur)
         let label = UILabel()
         label.text = getHeaderText(section: section)
@@ -240,7 +238,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         label.sizeToFit()
         label.frame = CGRect(x: 20, y: CGFloat(headerSize)/2 -  label.frame.height/2, width: label.frame.width, height: label.frame.height)
         label.textColor = constants.globalColors.happyMainColor
-        view.addSubview(label)
+        view.contentView.addSubview(label)
         return view
     }
     
@@ -328,7 +326,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
             UIView.animate(withDuration: 1, delay: delay, options: .curveEaseInOut , animations: {
                 cell.layer.transform = CATransform3DIdentity
             }) { (finished) in
-                print(index)
+                //print(index)
                 
             }
         }

@@ -254,11 +254,9 @@ class eventInformationVC: UIViewController, UIGestureRecognizerDelegate, UIColle
             fixAttendingButtonsFirstTime(indexPath: indexPath)
         } else {
             if indexPath.row == 0{
-                print("got to out 2")
                 self.attendingCollectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .left, animated: true)
 
             } else {
-                print("got to in 2")
                 self.attendingCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
             }
         }

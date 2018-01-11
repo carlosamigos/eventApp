@@ -68,7 +68,7 @@ class LoginVC: UIViewController {
                 let storageRef = self.storage.reference(forURL: "gs://testeventapp-cd7d2.appspot.com")
                 
                 let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-                var docs: String = paths[0]
+                let docs: String = paths[0]
                 let fullPath =  "\(docs)/profilePicture.jpg"
                 
                 let image    = UIImage(contentsOfFile: "\(fullPath)")
@@ -80,15 +80,14 @@ class LoginVC: UIViewController {
                     let url = URL(string: urlString)
                     DispatchQueue.global().async {
                         do {
-                            print(url)
-                            let data = try NSData(contentsOf: url!)
+                            let data = NSData(contentsOf: url!)
                             let proPic: UIImage! = UIImage(data: data! as Data)
                             let imageData = NSData(data:UIImagePNGRepresentation(proPic)!)
                             let paths = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)
-                            var docs: String = paths[0] as! String
+                            let docs: String = paths[0]
                             let fullPath =  "\(docs)/profilePicture.jpg"
-                            print(fullPath)
-                            let result = imageData.write(toFile: fullPath, atomically: true)
+                            //print(fullPath)
+                            imageData.write(toFile: fullPath, atomically: true)
                             
                             DispatchQueue.global().sync {
                                 let riversRef = storageRef.child("images/\((FIRAuth.auth()?.currentUser?.uid)!)/profilePicture.jpg")
@@ -165,7 +164,7 @@ class LoginVC: UIViewController {
                     if error != nil {
                         print(error.debugDescription)
                     } else {
-                        print("firebase successful login")
+                        //print("firebase successful login")
                         
                         
                     }

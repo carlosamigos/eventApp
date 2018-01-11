@@ -40,7 +40,7 @@ func updateFacebookPictures(friends: NSDictionary){
     //add try accept
     if friends.allKeys.count > 0{
         if let friendsArray = friends["data"] {
-            print(friendsArray)
+            //print(friendsArray)
             for person in (friendsArray as! NSArray){ //persin is dictionary
                 let personDict = (person as! NSDictionary)
                 let name = personDict["name"] as! String

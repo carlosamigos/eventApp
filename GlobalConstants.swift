@@ -15,6 +15,7 @@ struct constants {
     struct globalColors {
         
         static let happyMainColor = UIColor(hex: "ff7153")
+        static let greyMessageBubbleColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     
     }
     

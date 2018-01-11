@@ -67,15 +67,14 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
     var latestIndexPath: IndexPath!
     
     func didClick(collectionCell:eventsCustomCollectionCell,eventCell: feedEventCell, indexPathInTableView: IndexPath){
-        if var collectionIndex = feedAndGroupsCollectionView.indexPath(for: collectionCell){
-            if var cellIndex = collectionCell.events.indexPath(for: eventCell){
+        if feedAndGroupsCollectionView.indexPath(for: collectionCell) != nil{
+            if collectionCell.events.indexPath(for: eventCell) != nil{
                 //perform segue
                 eventCell.profilePicture.alpha = 0
                 eventCell.title.alpha = 0
                 latestEventCell = eventCell
                 latestEventCollectionCell = collectionCell
                 latestIndexPath = indexPathInTableView
-                
                 
                 performSegue(withIdentifier: "segueFeedToEvent", sender: self)
                 
@@ -84,9 +83,9 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
     }
     
     func didClick(collectionCell:groupsHomeCustomCollectionCell,groupCell: feedGroupCell){
-        if let collectionIndex = feedAndGroupsCollectionView.indexPath(for: collectionCell){
-            if let cellIndex = collectionCell.groups.indexPath(for: groupCell){
-                print(collectionIndex.row,cellIndex.row)
+        if feedAndGroupsCollectionView.indexPath(for: collectionCell) != nil{
+            if collectionCell.groups.indexPath(for: groupCell) != nil{
+                //print(collectionIndex.row,cellIndex.row)
                 //perform segue
             }
         }
@@ -170,6 +169,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         let width = self.view.frame.width
         let delta = min(max(feedAndGroupsCollectionView.contentOffset.x / width,0),1)
         let originalX = width/2 - self.feedLabel.frame.width/2
+        feedLabel.alpha = 1
         if delta <= 0.5{
             self.feedLabel.frame = CGRect(x: originalX - delta/0.5*(originalX-self.groupsLabel.frame.minX), y: self.feedLabel.frame.minY, width: self.feedLabel.frame.width, height: self.feedLabel.frame.height)
             self.groupsLabel.alpha = 0
@@ -256,7 +256,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         
         let child = self.childViewControllers[0] as! eventInformationVC
         let index = self.latestEventCollectionCell.eventCells.index(of: self.latestEventCell)
-        self.latestEventCollectionCell.eventCells.remove(at: index! as! Int)
+        self.latestEventCollectionCell.eventCells.remove(at: index!)
         
         self.latestEventCollectionCell.events.deleteRows(at: [self.latestIndexPath], with: UITableViewRowAnimation.automatic)
         
@@ -276,6 +276,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
             self.performSegue(withIdentifier: "createNewEvent", sender: nil)
             
         } else {
+            feedLabel.alpha = 0
             self.performSegue(withIdentifier: "createNewGroupName", sender: nil)
         }
     }

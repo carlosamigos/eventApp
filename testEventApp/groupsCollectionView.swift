@@ -55,8 +55,8 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
         if let cell: feedGroupCell = self.groups.dequeueReusableCell(withIdentifier: "feedGroupCell") as? feedGroupCell {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.textLabel?.text = globalGroupsFromFirebase[indexPath.row].groupName
-            print(globalGroupsFromFirebase[indexPath.row].groupName)
-            print(globalGroupsFromFirebase.count)
+            //print(globalGroupsFromFirebase[indexPath.row].groupName)
+            //print(globalGroupsFromFirebase.count)
             return cell
             
         } else {
@@ -70,7 +70,6 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
     }
     
     func loadGroups(){
-        let myGroup = DispatchGroup()
         if FBSDKAccessToken.current() == nil{
             return
         }
@@ -90,8 +89,8 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
                         globalGroupsFromFirebase.append(group)
                         groupsIdMap[groupId] = true
                         self.groups.reloadData()
-                        print("group added ", value)
-                        print(globalGroupsFromFirebase.count)
+//                        print("group added ", value)
+//                        print(globalGroupsFromFirebase.count)
                     }
                 }
             })

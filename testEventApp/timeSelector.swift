@@ -74,7 +74,6 @@ class timeSelector: UIViewController {
         if  desc.contains("am") || desc.contains("AM") || desc.contains("pm") || desc.contains("PM"){
             dateFormatter.dateFormat = "h:mm a"
             let selectedDate = dateFormatter.string(from: timePicker.date)
-            print(selectedDate)
             self.nextBtn.setTitle(selectedDate, for: UIControlState.normal)
             
         }
