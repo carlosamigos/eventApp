@@ -23,8 +23,8 @@ class feedEventCell: UITableViewCell { //Currently used
     var eventInformation: eventInformation!
     
     
-    let ref = FIRDatabase.database().reference()
-    let storage = FIRStorage.storage()
+    let ref = Database.database().reference()
+    let storage = Storage.storage()
     
     var date = Date()
     var weekDay = String()
@@ -160,14 +160,15 @@ class feedEventCell: UITableViewCell { //Currently used
         }
         
         //set profile picture
-        if eventInformation.picUrl.characters.count > 0 { //check if it is data to get
+        if eventInformation.picUrl.count > 0 { //check if it is data to get
             //to start with
             myGroup.enter()
             DispatchQueue.global().async {
                 let ref = storageRef.child("images/\(eventInformation.creatorID!)/profilePicture.jpg")
                 
                 // Download in memory with a maximum allowed size of 1MB (1 * 1024 * 1024 bytes)
-                ref.data(withMaxSize: 1 * 2024 * 2024) { (data, error) -> Void in
+                
+                ref.getData(maxSize: 1 * 2024 * 2024) { (data, error) -> Void in
                     if (error != nil) {
                         // Uh-oh, an error occurred!
                     } else {

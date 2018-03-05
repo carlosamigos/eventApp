@@ -14,7 +14,6 @@ class segueFeedToEvent: UIStoryboardSegue {
         let sourceVC = self.source as! FeedAndGroupsViewController
         let destinationVC = self.destination as! eventInformationVC
         
-        let attStatus = destinationVC.attendingStatus
         //MUST INCLUDE ADD CHILD VIEW CONTROLLER
         sourceVC.addChildViewController(destinationVC)
         sourceVC.view.addSubview(destinationVC.view)
@@ -26,8 +25,9 @@ class segueFeedToEvent: UIStoryboardSegue {
         destinationVC.eventTitle.sizeToFit()
         destinationVC.backButton.alpha = 0
         destinationVC.attendingCollectionView.alpha = 1
+        destinationVC.eventsCustomCollectionCellRef = sourceVC.eventClassRef
         
-        destinationVC.messageImageView.alpha = 0
+//        destinationVC.messageImageView.alpha = 0
         sourceVC.latestEventCell.alpha = 0
         destinationVC.divider.frame = CGRect(x: 0, y: UIScreen.main.bounds.maxY, width: UIScreen.main.bounds.width, height: destinationVC.dividerHeight)
         
@@ -36,13 +36,11 @@ class segueFeedToEvent: UIStoryboardSegue {
         let newPicSizeMultiplier: CGFloat = 1.3
             
         UIApplication.shared.setStatusBarHidden(true, with: .fade)
-        
-        destinationVC.doNotUpdateAttendingStatus = true
-        
+                
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             destinationVC.attendingCollectionView.frame = CGRect(x: destinationVC.attendingCollectionView.frame.minX, y: UIScreen.main.bounds.height-destinationVC.attendingButtonHeight, width: destinationVC.attendingCollectionView.frame.width, height: destinationVC.attendingCollectionView.frame.height)
             destinationVC.divider.frame = CGRect(x: 0, y: UIScreen.main.bounds.maxY-destinationVC.attendingButtonHeight-destinationVC.dividerHeight, width: UIScreen.main.bounds.width, height: destinationVC.dividerHeight)
-            destinationVC.messageImageView.alpha = 1
+//            destinationVC.messageImageView.alpha = 1
             sourceVC.latestEventCollectionCell.events.alpha = 0
             destinationVC.view.backgroundColor = UIColor(white: 1, alpha: 1)
             destinationVC.eventPicture.alpha = 0.0
@@ -72,14 +70,15 @@ class segueFeedToEvent: UIStoryboardSegue {
             
             destinationVC.numberAttending.frame = CGRect(x: destinationVC.peoplePic.frame.maxX + destinationVC.distanceFromTitleToProfilePicture, y: destinationVC.peoplePic.frame.minY+1, width: destinationVC.numberAttending.frame.width, height: destinationVC.numberAttending.frame.height)
             
-            if attStatus == "IN" {
+            if sourceVC.latestEventCell.eventInformation.attendingStatus == "IN" {
                 destinationVC.attendingCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
-            } else if attStatus == "OUT" {
+            } else if sourceVC.latestEventCell.eventInformation.attendingStatus == "OUT" {
                 destinationVC.attendingCollectionView.scrollToItem(at: IndexPath(row: 1, section: 0), at: .left, animated: true)
             }
             
             }) { (finished) in
-                destinationVC.doNotUpdateAttendingStatus = false
+                
+                
                 
                 
                 

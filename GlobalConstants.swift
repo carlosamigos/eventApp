@@ -16,6 +16,7 @@ struct constants {
         
         static let happyMainColor = UIColor(hex: "ff7153")
         static let greyMessageBubbleColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        static let appAPIClientID = "790569784414-b7e46usnbtrlo9v841pdsvl2m06f6g0p.apps.googleusercontent.com"
     
     }
     

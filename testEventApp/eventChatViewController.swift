@@ -39,9 +39,9 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
     }
     
     func setupComponents(){
-        if(!offlineMode){
-            event.addChatListener(listener: self)
-        }
+//        if(!offlineMode){
+//            event.addChatListener(listener: self)
+//        }
         let bottomContainerView = UIView()
         bottomContainerView.backgroundColor = UIColor.white
         bottomContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -90,6 +90,8 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
         messageTable.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height-bottomContainerView.frame.height)
         messageTable.contentInset = UIEdgeInsetsMake(8, 0, 55, 0)
         messageTable.allowsSelection = false
+        
+
         view.addSubview(messageTable)
         view.sendSubview(toBack: messageTable)
         
@@ -191,7 +193,7 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
         if(offlineMode){
             isPersonal = true
         } else {
-            isPersonal = (FIRAuth.auth()?.currentUser?.uid==senderId)
+            isPersonal = (Auth.auth().currentUser?.uid==senderId)
         }
         
         let messageCell = ChatMessageCell()
@@ -225,12 +227,6 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
     }
     
 
-   
-    
-
-    
-    
-
     
     func handleSendButton(){
         let currentDateTime = Date()
@@ -249,8 +245,8 @@ class eventChatViewController: UIViewController, UITextFieldDelegate, UITableVie
         formatter.timeStyle = .medium
         formatter.dateStyle = .long        
         let eventId = event.eventID
-        let userId = FIRAuth.auth()?.currentUser?.uid
-        let ref = FIRDatabase.database().reference().child("eventMessages").child(eventId!).childByAutoId()
+        let userId = Auth.auth().currentUser?.uid
+        let ref = Database.database().reference().child("eventMessages").child(eventId!).childByAutoId()
         var values = ["text": inputTextField.text!]
         values["time"] = formatter.string(from: currentDateTime)
         values["userId"] = userId

@@ -11,40 +11,39 @@ import Firebase
 import FirebaseDatabase
 import FBSDKCoreKit
 import FBSDKLoginKit
+import GoogleSignIn
+
+
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate{
 
     var window: UIWindow?
 
     
     override init(){
         super.init()
-        FIRApp.configure()
+        FirebaseApp.configure()
     }
+    
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         updateFriendsList()
-        
-        //Just temporary
-        
-//        if (FBSDKAccessToken.current() != nil) {
-//            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//            print("existing accesstoken")
-//            let initialViewController = mainStoryboard.instantiateViewController(withIdentifier: "feed")
-//            self.window?.rootViewController = initialViewController
-//            self.window?.makeKeyAndVisible()
-//            
-//        } else {
-//            print("non-existing accesstoken")
-//            
-//        }
-        
+    
         return true
+    }
+    
+    @available(iOS 9.0, *)
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any])
+        -> Bool {
+            return GIDSignIn.sharedInstance().handle(url,
+                                                     sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                     annotation: [:])
     }
     
     

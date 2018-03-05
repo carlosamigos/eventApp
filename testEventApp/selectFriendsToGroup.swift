@@ -31,7 +31,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
     
     @IBOutlet weak var inviteFriendsLabel: UILabel!
     
-    private let ref = FIRDatabase.database().reference()
+    private let ref = Database.database().reference()
     
     let friendsString = "friends"
     let groupString = "groups"
@@ -213,7 +213,7 @@ class selectFriendsToGroup: UIViewController, UICollectionViewDelegate, UICollec
         
         let myGroup = DispatchGroup()
         let key = self.ref.child("groupInfo").childByAutoId().key
-        let uid = FIRAuth.auth()?.currentUser?.uid
+        let uid = Auth.auth().currentUser?.uid
         var postGroupMembers = [uid!:"IN"] as [String : Any]
         let postGroupInfo = ["groupName":self.nameOfGroup as String,"groupCreator":uid!, "groupId":key] as [String : Any]
         

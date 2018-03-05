@@ -24,7 +24,7 @@ class eventInformation {
     var attending: Int!
     
     var messages = [eventMessage]()
-    var chatListener: eventChatViewController!
+    var chatListener: eventInformationVC!
     
     
     init(eventID: String,title: String,picUrl: String, status:String, creatorID: String, address: String, time: String,weekday: String, description: String, attending: Int){
@@ -46,7 +46,7 @@ class eventInformation {
         if(offlineMode){
             return
         }
-        let ref = FIRDatabase.database().reference().child("eventMessages").child(self.eventID).observe(.childAdded, with: { snapshot in
+        let ref = Database.database().reference().child("eventMessages").child(self.eventID).observe(.childAdded, with: { snapshot in
             if let value = snapshot.value as? NSDictionary {
                 let newMessage = eventMessage(senderId: value.object(forKey: "userId") as! String, eventId: self.eventID, timeStamp: value.object(forKey: "time") as! String, text: value.object(forKey: "text") as! String)
                 self.messages.append(newMessage)
@@ -57,7 +57,7 @@ class eventInformation {
         })
     }
     
-    func addChatListener(listener: eventChatViewController){
+    func addChatListener(listener: eventInformationVC){
         self.chatListener = listener
     }
     

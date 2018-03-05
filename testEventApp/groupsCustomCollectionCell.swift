@@ -42,6 +42,7 @@ class groupsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         if let cell: groupCell = self.groupList.dequeueReusableCell(withIdentifier: "groupCell") as? groupCell {
             cell.selectionStyle = UITableViewCellSelectionStyle.none
             cell.textLabel?.text = globalFilteredGroups[indexPath.row].groupName
+            cell.groupInformation = globalFilteredGroups[indexPath.row]
             return cell
             
         } else {

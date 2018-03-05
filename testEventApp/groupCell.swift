@@ -12,10 +12,9 @@ class groupCell: UITableViewCell {
     
     
     
-    
+    var groupInformation: groupInformation!
     let standardColor = UIColor.white.cgColor
     let tapColor = constants.globalColors.happyMainColor.cgColor
-    
     var groupPicture = UIButton()
 
     
@@ -42,7 +41,7 @@ class groupCell: UITableViewCell {
         addSubview(groupPicture)
         
         
-        groupPicture.addTarget(self, action: #selector(groupCell.handleActionButton), for: .touchUpInside)
+//        groupPicture.addTarget(self, action: #selector(groupCell.handleActionButton), for: .touchUpInside)
         
         groupPicture.addTarget(self, action: #selector(groupCell.groupPictureTapped), for: .touchDown)
         
@@ -87,15 +86,27 @@ class groupCell: UITableViewCell {
 
     
     func handleActionButton(){
-        groupPicture.layer.borderColor = (groupPicture.layer.borderColor == standardColor ) ? standardColor : tapColor
+        
         
     }
     
 
     
     func groupPictureTapped(_ sender: AnyObject) {
-        groupPicture.layer.borderColor = (groupPicture.layer.borderColor == standardColor ) ? tapColor : standardColor
+        if(groupPicture.layer.borderColor == standardColor ){
+            selectedGroups.append(groupInformation)
+            groupPicture.layer.borderColor = tapColor
+        }else {
+            if let index = selectedGroups.index(where: { (item) -> Bool in
+                item.groupId == groupInformation.groupId
+            }){
+                selectedGroups.remove(at: index )
+            }
+            
+            groupPicture.layer.borderColor = standardColor
+        }
     }
+    
 
     
 }

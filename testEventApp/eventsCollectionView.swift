@@ -20,7 +20,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
     var pastEventCells = [feedEventCell]()
     let headerSize = 40.0
     
-    private var ref: FIRDatabaseReference!
+    private var ref: DatabaseReference!
     
     weak var delegate : eventsCustomCollectionCellDelegate?
     
@@ -28,7 +28,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
  
-        ref = FIRDatabase.database().reference()
+        ref = Database.database().reference()
         events.delegate = self
         events.dataSource = self
         addSubview(events)
@@ -54,7 +54,7 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
             return
         }
         if FBSDKAccessToken.current().userID != nil{
-            let uid = FIRAuth.auth()?.currentUser?.uid // FIRAuth.auth()?.currentUser?.uid, should also be forced unwrap ! on .child(uid!) underneathh
+            let uid = Auth.auth().currentUser?.uid // Auth.auth()?.currentUser?.uid, should also be forced unwrap ! on .child(uid!) underneathh
             
             
             ref.child("user-events").child(uid!).queryOrdered(byChild: "time").observe( .childAdded, with: { snapshot in
@@ -197,7 +197,12 @@ class eventsCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, U
             }
         }
         //some error here
-        return potentialCells[indexPath.row]
+        var cell = UITableViewCell()
+        if(indexPath.row < potentialCells.count){
+            cell = potentialCells[indexPath.row]
+        }
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

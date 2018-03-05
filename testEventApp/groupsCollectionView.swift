@@ -16,13 +16,13 @@ import FBSDKCoreKit
 class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSource, UITableViewDelegate {
     
     let groups = UITableView()
-    private var ref: FIRDatabaseReference!
+    private var ref: DatabaseReference!
     weak var delegate : groupsCustomCollectionCellDelegate?
     var groupsLoaded = false;
     
     override init(frame: CGRect){
         super.init(frame: frame)
-        ref = FIRDatabase.database().reference()
+        ref = Database.database().reference()
         self.backgroundColor = UIColor.white
         groups.delegate = self
         groups.dataSource = self
@@ -75,7 +75,8 @@ class groupsHomeCustomCollectionCell: UICollectionViewCell, UITableViewDataSourc
         }
         
         if FBSDKAccessToken.current().userID != nil{
-            let uid = FIRAuth.auth()?.currentUser?.uid // FIRAuth.auth()?.currentUser?.uid, should also be forced unwrap ! on .child(uid!)
+            
+            let uid = Auth.auth().currentUser?.uid // Auth.auth()?.currentUser?.uid, should also be forced unwrap ! on .child(uid!)
             ref.child("user-groups").child(uid!).queryOrdered(byChild: "groupName").observe(.childAdded, with: { snapshot in
                 if let value = snapshot.value as? NSDictionary{
                     

@@ -14,11 +14,11 @@ class dataSource {
     
     //All constants, references and global functions
     
-    var mainStorageRef: FIRStorageReference {
-        return FIRStorage.storage().reference(forURL: "gs://testeventapp-cd7d2.appspot.com")
+    var mainStorageRef: StorageReference {
+        return Storage.storage().reference(forURL: "gs://testeventapp-cd7d2.appspot.com")
     }
     
-    var imageStorageRef: FIRStorageReference {
+    var imageStorageRef: StorageReference {
         return mainStorageRef.child("images")
     }
     

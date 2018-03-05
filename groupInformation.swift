@@ -17,10 +17,10 @@ class groupInformation {
     let groupCreator: String!
     var groupName: String!
     var groupMemberFirebaseIDs: [String]
-    private var ref: FIRDatabaseReference!
+    private var ref: DatabaseReference!
     
     init(groupId: String, groupCreator: String, groupName: String) {
-        ref = FIRDatabase.database().reference()
+        ref = Database.database().reference()
         self.groupId = groupId
         self.groupCreator = groupCreator
         self.groupName = groupName

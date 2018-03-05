@@ -20,7 +20,7 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
     var eventTitle: String = ""
     var panGestureRecognizer: UIPanGestureRecognizer!
 
-     let ref = FIRDatabase.database().reference()
+     let ref = Database.database().reference()
     
     override func viewDidLoad() {
         super.viewDidLoad()

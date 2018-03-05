@@ -20,10 +20,10 @@ var selectedGroups = [groupInformation]()
 class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UISearchBarDelegate,UIGestureRecognizerDelegate {
 
     @IBOutlet weak var collectionV: UICollectionView!
-    @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet public weak var nextBtn: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var inviteFriendsLabel: UILabel!
-    private var ref: FIRDatabaseReference!
+    private var ref: DatabaseReference!
     var panGestureRecognizer: UIPanGestureRecognizer!
 
     
@@ -48,7 +48,7 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         prepareBackButton()
         collectionV.showsHorizontalScrollIndicator = false
-        ref = FIRDatabase.database().reference()
+        ref = Database.database().reference()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(invitePeopleViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         collectionV.dataSource = self
@@ -189,7 +189,7 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     @IBAction func createEventButtonPressed(_ sender: AnyObject) {
         let myGroup = DispatchGroup()
         let key = self.ref.child("eventInfo").childByAutoId().key
-        let uid = FIRAuth.auth()?.currentUser?.uid
+        let uid = Auth.auth().currentUser?.uid
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = ""
         let convertedDate = dateFormatter.string(from: dateFromChooseDay)
@@ -200,10 +200,31 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         
         var childUpdates = ["/user-events/\(uid!)/\(key)/": postPrivate]
         
-        for invitedFriend in selectedFriends{
+        //Find friends that are invited
+        var allFriends = [facebookFriend]()
+        var facebookIDSet = Set<String>()
+        for friend in selectedFriends{
+            allFriends.append(friend)
+            facebookIDSet.insert(friend.facebookID)
+        }
+        for group in selectedGroups{
+            for firebaseIdofFriendToAdd in group.groupMemberFirebaseIDs{
+                if let faceId = firebaseIDtoFacebookID[firebaseIdofFriendToAdd]{
+                    if let faceBookFriend = facebookIDtoFacebookFriendMap[faceId]{
+                        // check if facebook friend is in list:
+                        if(!facebookIDSet.contains(faceId)){
+                            allFriends.append(faceBookFriend)
+                            facebookIDSet.insert(faceBookFriend.facebookID)
+                        }
+                    }
+                }
+            }
+        }
+        
+        //Invite all friends
+        for invitedFriend in allFriends{
             myGroup.enter()
-            //TODO: use firebaseID instead of faceBookiD - make it such that users are added to the database when logged in
-            
+        
             //if this fails, the user has not registered in the app yet
             self.ref.child("facebookUser/\(invitedFriend.facebookID!)").observeSingleEvent(of: .value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary

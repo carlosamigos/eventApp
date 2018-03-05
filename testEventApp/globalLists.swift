@@ -14,8 +14,6 @@ var facebookIDtoFacebookFriendMap = [String : facebookFriend]()
 
 var firebaseIDtoFacebookID = [String: String]()
 
-
-
 var globalGroupsFromFirebase = [groupInformation]()
 
 var groupsIdMap = [String: Bool]()

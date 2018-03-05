@@ -19,11 +19,11 @@ class facebookFriend {
     var profilePicture = UIImage()
     var selected = false
     
-    private var ref: FIRDatabaseReference!
+    private var ref: DatabaseReference!
 
     
     init(fullName: String,facebookID: String){ //should add firebaseID: String
-        ref = FIRDatabase.database().reference()
+        ref = Database.database().reference()
         self.fullName = fullName
         self.facebookID = facebookID
         updateFirebaseID()
@@ -63,6 +63,7 @@ class facebookFriend {
         })
     }
 }
+
 
 
 class facebookFriendWithoutApp {

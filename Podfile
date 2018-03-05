@@ -8,12 +8,21 @@ target 'testEventApp' do
   # Pods for testEventApp
 
 
-pod 'Firebase'
+pod ‘GoogleSignIn’
+pod 'GoogleAPIClientForREST/Calendar', '~> 1.3.2’
+pod 'Firebase/AdMob'
+pod 'Firebase/Analytics'
+pod 'Firebase/Auth'
+pod 'Firebase/Crash'
+pod 'Firebase/Database'
+pod 'Firebase/DynamicLinks'
+pod 'Firebase/Invites'
+pod 'Firebase/Messaging'
+pod 'Firebase/Performance'
+pod 'Firebase/RemoteConfig'
+pod 'Firebase/Storage'
+pod 'FacebookLogin'
+pod 'FBSDKLoginKit'
 
-pod 'Firebase/Database’
-
-pod 'Firebase/Auth’
-
-pod 'Firebase/Storage’
 
 end

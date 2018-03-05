@@ -29,6 +29,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         if FBSDKAccessToken.current() == nil {
             print("accesstoken in feed = nil ")
             //go back to login screen
@@ -150,14 +151,6 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
                     destVC.peoplePic.frame = CGRect(x: eventCell.peoplePic.frame.minX, y: eventCell.peoplePic.frame.minY+eventCell.frame.minY+feedAndGroupsCollectionView.frame.minY - self.latestEventCollectionCell.events.contentOffset.y, width: eventCell.peoplePic.frame.width, height: eventCell.peoplePic.frame.height)
                     
                     destVC.attendingStatus = eventCell.attending
-                    if eventCell.attending != "NA" {
-                        destVC.hasNotRespondedYet = false
-                    } else {
-                        destVC.hasNotRespondedYet = true
-                    }
-                    
-                    
-                    
                 }
             }
         }
@@ -216,7 +209,7 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
             child.view.backgroundColor = UIColor(white: 1, alpha: 0.0)
             child.attendingCollectionView.alpha = 0
-            child.messageImageView.alpha = 0
+//            child.messageImageView.alpha = 0
             child.backButton.alpha = 0
             child.eventPicture.alpha = 0
             
@@ -254,18 +247,38 @@ class FeedAndGroupsViewController: UIViewController, eventsCustomCollectionCellD
     
     @IBAction func unwindToFeedWithDeletedEvent(segue: UIStoryboardSegue) {
         
+        
         let child = self.childViewControllers[0] as! eventInformationVC
-        let index = self.latestEventCollectionCell.eventCells.index(of: self.latestEventCell)
-        self.latestEventCollectionCell.eventCells.remove(at: index!)
+        child.handleActionBackButton()
+        let when = DispatchTime.now()
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            // Your code with delay
+            self.tryToDeleteEventCellFromTableView(feedEventCell: self.latestEventCell, eventsCustomCollectionCell: self.eventClassRef)
+        }
+        self.feedAndGroupsCollectionView.reloadData()
         
-        self.latestEventCollectionCell.events.deleteRows(at: [self.latestIndexPath], with: UITableViewRowAnimation.automatic)
-        
-       
-        child.willMove(toParentViewController: nil)
-        child.view.removeFromSuperview()
-        child.removeFromParentViewController()
-        
-        
+
+    }
+    
+    func tryToDeleteEventCellFromTableView(feedEventCell: feedEventCell, eventsCustomCollectionCell: eventsCustomCollectionCell){
+        var index = 0
+        for cell in eventsCustomCollectionCell.eventCells{
+            if(cell.eventID == feedEventCell.eventInformation.eventID){
+                eventsCustomCollectionCell.eventCells.remove(at: index)
+                eventsCustomCollectionCell.events.reloadData()
+                return
+            }
+            index += 1
+        }
+        index = 0
+        for cell in eventsCustomCollectionCell.pastEventCells{
+            if(cell.eventID == feedEventCell.eventInformation.eventID){
+                eventsCustomCollectionCell.eventCells.remove(at: index)
+                eventsCustomCollectionCell.events.reloadData()
+                return
+            }
+            index += 1
+        }
     }
     
     

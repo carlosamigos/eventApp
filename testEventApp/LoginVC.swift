@@ -19,10 +19,10 @@ class LoginVC: UIViewController {
     @IBOutlet weak var aivControl: UIActivityIndicatorView!
     @IBOutlet weak var slogan: UILabel!
     
-    var myRootRef = FIRDatabase.database().reference()
+    var myRootRef = Database.database().reference()
     
     // Get a reference to the storage service, using the default Firebase App
-    let storage = FIRStorage.storage()
+    let storage = Storage.storage()
 
     @IBOutlet weak var loginText: UILabel!
     
@@ -47,11 +47,11 @@ class LoginVC: UIViewController {
 
         
         //TODO: add if user is already logged in
-        FIRAuth.auth()?.addStateDidChangeListener({ (auth, user) in
+        Auth.auth().addStateDidChangeListener({ (auth, user) in
             if user != nil && FBSDKAccessToken.current() != nil  {
                 //user is signed in 
                 
-                if let firebaseID = FIRAuth.auth()?.currentUser?.uid{
+                if let firebaseID = Auth.auth().currentUser?.uid{
                     let facebookID = FBSDKAccessToken.current().userID!
                     let childUpdates = ["firebaseUser/\(firebaseID)": ["facebookID": "\(facebookID)"],"facebookUser/\(facebookID)":["firebaseID":firebaseID]]
                     
@@ -90,8 +90,8 @@ class LoginVC: UIViewController {
                             imageData.write(toFile: fullPath, atomically: true)
                             
                             DispatchQueue.global().sync {
-                                let riversRef = storageRef.child("images/\((FIRAuth.auth()?.currentUser?.uid)!)/profilePicture.jpg")
-                                riversRef.put(data as! Data, metadata: nil) { metadata, error in
+                                let riversRef = storageRef.child("images/\((Auth.auth().currentUser?.uid)!)/profilePicture.jpg")
+                                riversRef.putData(data as! Data,metadata: nil){ metadata, error in
                                     if (error != nil) {
                                         // Uh-oh, an error occurred!
                                     } else {
@@ -159,8 +159,8 @@ class LoginVC: UIViewController {
                 self.facebookLoginBtnLabel.alpha = 0
                 self.loginText.alpha = 0
                 self.aivControl.startAnimating()
-                let credential = FIRFacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
-                FIRAuth.auth()?.signIn(with: credential, completion: {(user,error) in
+                let credential = FacebookAuthProvider.credential(withAccessToken: FBSDKAccessToken.current().tokenString)
+                Auth.auth().signIn(with: credential, completion: {(user,error) in
                     if error != nil {
                         print(error.debugDescription)
                     } else {

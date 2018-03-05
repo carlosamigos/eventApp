@@ -19,7 +19,7 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
     
     @IBOutlet weak var addressBtn: UIButton!
     @IBOutlet weak var mapView: MKMapView!
-    var ref: FIRDatabaseReference!
+    var ref: DatabaseReference!
     
     var weekday: String = ""
     var dateFromChooseDay: Date = Date()
@@ -39,7 +39,7 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
         self.mapPin.alpha = 1
         super.viewDidLoad()
         self.mapView.delegate = self
-        self.ref = FIRDatabase.database().reference()
+        self.ref = Database.database().reference()
 
         locationManager = CLLocationManager()
         locationManager!.delegate = self
