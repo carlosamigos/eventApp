@@ -8,6 +8,9 @@
 
 import UIKit
 import Foundation
+import FirebaseDatabase
+import FBSDKCoreKit
+import FirebaseAuth
 
 
 
@@ -15,13 +18,14 @@ class timeSelector: UIViewController {
     
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var timePicker: UIDatePicker!
-    var dateFromChooseDay: Date = Date()
-    var titleFromPrevView: String = ""
-    var weekday: String = ""
+    private var ref: DatabaseReference!
+
     var panGestureRecognizer: UIPanGestureRecognizer!
+    var inCreationEvent: InCreationEvent?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ref = Database.database().reference()
         timePicker.datePickerMode = .time
         timePicker.minuteInterval = 5
         timePicker.setValue(UIColor.white, forKeyPath: "textColor")
@@ -31,25 +35,7 @@ class timeSelector: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let secondVC: locationSelector = segue.destination as! locationSelector
-        secondVC.dateFromChooseDay = self.dateFromChooseDay
-        secondVC.titleFromPrevView = self.titleFromPrevView
-        timePicker.datePickerMode = UIDatePickerMode.time
-        let dateFormatter = DateFormatter()
-        let desc = timePicker.date.description as NSString
-        if  desc.contains("am") || desc.contains("AM") || desc.contains("pm") || desc.contains("PM"){
-            dateFormatter.dateFormat = "h:mm a"
-            let newDate = dateFormatter.date(from: desc as String)
-            dateFormatter.dateFormat = "HH:mm"
-            let selectedDate = dateFormatter.string(from: newDate!)
-            secondVC.hourMin = selectedDate
-        }
-        else {
-            dateFormatter.dateFormat = "HH:mm"
-            let selectedDate = dateFormatter.string(from: timePicker.date)
-            secondVC.hourMin = selectedDate
-        }
-        secondVC.weekday = self.weekday
+        
         
     }
     
@@ -66,6 +52,7 @@ class timeSelector: UIViewController {
     }
 
     @IBAction func nextBtnPressed(_ sender: AnyObject) {
+        createEvent()
     }
    
     @IBAction func timeChanged(_ sender: AnyObject) {
@@ -105,6 +92,104 @@ class timeSelector: UIViewController {
             }
         }
     }
+    
+    
+    private func createEvent(){
+        // TODO: add a check if the time chosen is yesterday or today
+        timePicker.datePickerMode = UIDatePickerMode.time
+        let dateFormatter = DateFormatter()
+        let desc = timePicker.date.description as NSString
+        if  desc.contains("am") || desc.contains("AM") || desc.contains("pm") || desc.contains("PM"){
+            dateFormatter.dateFormat = "h:mm a"
+            let newDate = dateFormatter.date(from: desc as String)
+            dateFormatter.dateFormat = "HH:mm"
+            let selectedTime = dateFormatter.string(from: newDate!)
+            self.inCreationEvent?.hourMin = selectedTime
+        }
+        else {
+            dateFormatter.dateFormat = "HH:mm"
+            let selectedTime = dateFormatter.string(from: timePicker.date)
+            self.inCreationEvent?.hourMin = selectedTime
+        }
+        
+        let dato: NSDate = self.inCreationEvent?.date! as! NSDate
+        let calendar = NSCalendar.current
+        let unitFlags = Set<Calendar.Component>([.day, .month, .year])
+        let comp = calendar.dateComponents(unitFlags, from: dato as Date)
+        var dateAsString = "\(comp.year!)/\(comp.month!)/\(comp.day!), \("00:00")" //format yyyy/mm/dd, hh:mm
+        if let hourMin = inCreationEvent?.hourMin{
+            dateAsString = "\(comp.year!)/\(comp.month!)/\(comp.day!), \(hourMin)" //format yyyy/mm/dd, hh:mm
+        }
+        
+        // Add event
+        let myGroup = DispatchGroup()
+        let key = self.ref.child("eventInfo").childByAutoId().key
+        let uid = Auth.auth().currentUser?.uid
+        dateFormatter.dateFormat = "YYYY/MM/DD, HH:MM"
+        var convertedDate = "No date"
+        if let newDate = inCreationEvent?.date{
+            convertedDate = dateFormatter.string(from: newDate)
+        }
+        let postEventInfo = ["name":inCreationEvent?.eventTitle ?? "No title","creator":uid!,"time":"\(dateAsString)","duration": inCreationEvent?.duration ?? 60,"weekday": inCreationEvent?.weekDay ?? "Monday","address": inCreationEvent?.address ?? "No Address", "latitute": inCreationEvent?.lati ?? 0.0, "longitude": inCreationEvent?.longi ?? 0.0,"numberAttending": 1, "description": inCreationEvent?.description ?? "No description"] as [String : Any]
+        
+        var postEventMembers = [uid!:"IN"] as [String : Any]
+        let postPrivate = ["name":inCreationEvent?.eventTitle ?? "No title","creator":uid!,"time":"\(dateAsString)","duration": inCreationEvent?.duration ?? 60, "weekday": inCreationEvent?.weekDay ?? "Monday","address": inCreationEvent?.address ?? "No Address" , "latitute": inCreationEvent?.lati ?? 0.0, "longitude": inCreationEvent?.longi ?? 0.0,"description": inCreationEvent?.description ?? "No description"] as [String : Any]
+        print(postEventInfo)
+        print(postPrivate)
+        var childUpdates = ["/user-events/\(uid!)/\(key)/": postPrivate]
+        
+        //Find friends that are invited
+        var allFriends = [facebookFriend]()
+        var facebookIDSet = Set<String>()
+        for friend in selectedFriends{
+            allFriends.append(friend)
+            facebookIDSet.insert(friend.facebookID)
+        }
+        for group in selectedGroups{
+            for firebaseIdofFriendToAdd in group.groupMemberFirebaseIDs{
+                if let faceId = firebaseIDtoFacebookID[firebaseIdofFriendToAdd]{
+                    if let faceBookFriend = facebookIDtoFacebookFriendMap[faceId]{
+                        // check if facebook friend is in list:
+                        if(!facebookIDSet.contains(faceId)){
+                            allFriends.append(faceBookFriend)
+                            facebookIDSet.insert(faceBookFriend.facebookID)
+                        }
+                    }
+                }
+            }
+        }
+        
+        //Invite all friends
+        for invitedFriend in allFriends{
+            myGroup.enter()
+            
+            //if this fails, the user has not registered in the app yet
+            self.ref.child("facebookUser/\(invitedFriend.facebookID!)").observeSingleEvent(of: .value, with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                if (value?.allKeys.count)! > 0{
+                    //update eventMembers and user-events
+                    postEventMembers["\((value?["firebaseID"])!)"] = "NA"
+                    
+                    //add to childUpdates: "/user-events/\(uid!)/\(key)/": postPrivate
+                    
+                    childUpdates["/user-events/\((value?["firebaseID"])!)/\(key)/"] = postPrivate
+                }
+                myGroup.leave()
+            })
+            
+        }
+        
+        myGroup.notify(queue: DispatchQueue.main, execute: {
+            childUpdates["/eventInfo/\(key)"] = postEventInfo
+            childUpdates["/eventMembers/\(key)"] = postEventMembers
+            self.ref.updateChildValues(childUpdates)
+        })
+        resetSelectedFriendsAndGroups(tripleFriendsClassRef: (self.inCreationEvent?.tripleFriendsClassRef!)!)
+        UIApplication.shared.setStatusBarHidden(false, with: .fade)
+        
+        
+    }
+    
 
     
 }

@@ -16,11 +16,12 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
     //TODO: fix prepare for segue to inviteFriends
     
     @IBOutlet weak var mapPin: UIImageView!
-    
+    @IBOutlet var nextBtn: [UIButton]!
     @IBOutlet weak var addressBtn: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     var ref: DatabaseReference!
     
+    var inCreationEvent: InCreationEvent?
     var weekday: String = ""
     var dateFromChooseDay: Date = Date()
     var hourMin: String = ""
@@ -134,27 +135,11 @@ class locationSelector: UIViewController, CLLocationManagerDelegate, MKMapViewDe
  
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    
-        let dato: NSDate = dateFromChooseDay as NSDate
-        let calendar = NSCalendar.current
-        let unitFlags = Set<Calendar.Component>([.day, .month, .year])
-        let comp = calendar.dateComponents(unitFlags, from: dato as Date)
-        let description = "Description of event"
-        
-        let dateAsString = "\(comp.year!)/\(comp.month!)/\(comp.day!), \(hourMin)" //format yyyy/mm/dd, hh:mm
-        
-        
-        let secondVC: invitePeopleViewController = segue.destination as! invitePeopleViewController
-    
-        secondVC.dateFromChooseDay = self.dateFromChooseDay
-        secondVC.titleFromPrevView = self.titleFromPrevView
-        secondVC.hourMin = dateAsString
-        secondVC.weekday = weekday
-        secondVC.address = address
-        secondVC.lati = lati
-        secondVC.longi = longi
-        
-        
+        self.inCreationEvent?.address = address
+        self.inCreationEvent?.lati = lati
+        self.inCreationEvent?.longi = longi
+        let secondVC: timeSelector = segue.destination as! timeSelector
+        secondVC.inCreationEvent = self.inCreationEvent
     }
     
     func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){

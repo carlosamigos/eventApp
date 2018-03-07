@@ -71,8 +71,9 @@ class nameAndDescription: UIViewController, UITextFieldDelegate {
     
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let event = InCreationEvent(title: titleField.text!)
         let secondVC: chooseDay = segue.destination as! chooseDay
-        secondVC.eventTitle = sender as! String
+        secondVC.inCreationEvent = event
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

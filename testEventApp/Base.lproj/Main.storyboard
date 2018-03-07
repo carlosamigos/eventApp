@@ -443,14 +443,11 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ISm-y6-c5A">
-                                <rect key="frame" x="0.0" y="183.5" width="375" height="300"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="4f3-aG-EuK"/>
-                                </constraints>
+                            <pickerView tag="1" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ISm-y6-c5A">
+                                <rect key="frame" x="0.0" y="120" width="375" height="216"/>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAz-hE-Sej">
-                                <rect key="frame" x="139.5" y="80" width="96" height="40"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekday and Duration" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tAz-hE-Sej">
+                                <rect key="frame" x="70.5" y="80" width="235" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="sJA-MO-lK5"/>
                                 </constraints>
@@ -483,33 +480,44 @@
                                 </state>
                                 <connections>
                                     <action selector="nextButtonPressed:" destination="TBk-l7-JfJ" eventType="touchUpInside" id="yAm-Xp-2YC"/>
-                                    <segue destination="PlC-1X-SmE" kind="presentation" modalPresentationStyle="overCurrentContext" id="ZT1-zo-ohg"/>
+                                    <segue destination="kwL-NW-1mM" kind="presentation" id="m4I-tU-qvR"/>
                                 </connections>
                             </button>
+                            <pickerView tag="2" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sVf-Hx-35n">
+                                <rect key="frame" x="0.0" y="354" width="375" height="216"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="0.99215686274509807" green="0.37647058823529411" blue="0.32941176470588235" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ISm-y6-c5A" firstAttribute="leading" secondItem="1hJ-yz-GL0" secondAttribute="leading" id="2ob-qB-0KF"/>
+                            <constraint firstItem="ISm-y6-c5A" firstAttribute="leading" secondItem="1hJ-yz-GL0" secondAttribute="leading" id="2Qr-vd-Q8s"/>
+                            <constraint firstItem="sVf-Hx-35n" firstAttribute="centerX" secondItem="1hJ-yz-GL0" secondAttribute="centerX" id="BkH-wz-ixi"/>
+                            <constraint firstItem="sVf-Hx-35n" firstAttribute="leading" secondItem="ISm-y6-c5A" secondAttribute="leading" id="Crn-dW-OCl"/>
                             <constraint firstItem="bFN-GO-0et" firstAttribute="leading" secondItem="1hJ-yz-GL0" secondAttribute="leading" id="D4D-I4-m43"/>
                             <constraint firstItem="kR8-4m-MaI" firstAttribute="top" secondItem="1hJ-yz-GL0" secondAttribute="top" id="I5w-NS-qN5"/>
+                            <constraint firstItem="ISm-y6-c5A" firstAttribute="centerX" secondItem="1hJ-yz-GL0" secondAttribute="centerX" id="Ogp-oH-ocT"/>
                             <constraint firstItem="kR8-4m-MaI" firstAttribute="leading" secondItem="1hJ-yz-GL0" secondAttribute="leading" id="PFm-HR-8Hu"/>
                             <constraint firstItem="tAz-hE-Sej" firstAttribute="top" secondItem="rPI-Ce-ONC" secondAttribute="bottom" constant="60" id="Uhi-xJ-hg2"/>
+                            <constraint firstItem="ISm-y6-c5A" firstAttribute="top" secondItem="tAz-hE-Sej" secondAttribute="bottom" id="X5w-BK-DLC"/>
+                            <constraint firstAttribute="trailing" secondItem="ISm-y6-c5A" secondAttribute="trailing" id="a6a-ms-5YO"/>
+                            <constraint firstAttribute="trailing" secondItem="sVf-Hx-35n" secondAttribute="trailing" id="aYU-Yp-NDP"/>
+                            <constraint firstItem="sVf-Hx-35n" firstAttribute="top" secondItem="ISm-y6-c5A" secondAttribute="bottom" constant="-30" id="bLV-8d-WvV"/>
                             <constraint firstItem="tAz-hE-Sej" firstAttribute="centerX" secondItem="1hJ-yz-GL0" secondAttribute="centerX" id="ect-bU-Tdj"/>
-                            <constraint firstItem="ISm-y6-c5A" firstAttribute="centerY" secondItem="1hJ-yz-GL0" secondAttribute="centerY" id="mHc-Re-DE2"/>
-                            <constraint firstAttribute="trailing" secondItem="ISm-y6-c5A" secondAttribute="trailing" id="nxd-2Z-P01"/>
+                            <constraint firstItem="bFN-GO-0et" firstAttribute="top" secondItem="sVf-Hx-35n" secondAttribute="bottom" id="k5M-kF-zw6"/>
                             <constraint firstItem="FaP-vT-ou0" firstAttribute="top" secondItem="bFN-GO-0et" secondAttribute="bottom" id="uew-Fr-u3G"/>
+                            <constraint firstItem="sVf-Hx-35n" firstAttribute="leading" secondItem="1hJ-yz-GL0" secondAttribute="leading" id="vjY-cx-hh8"/>
                             <constraint firstAttribute="trailing" secondItem="bFN-GO-0et" secondAttribute="trailing" id="wUQ-hL-0NL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3ev-mI-vbF"/>
                     <connections>
+                        <outlet property="durationPicker" destination="sVf-Hx-35n" id="zc6-lf-41o"/>
                         <outlet property="nextButton" destination="bFN-GO-0et" id="erL-bd-e61"/>
                         <outlet property="picker" destination="ISm-y6-c5A" id="Z3a-ng-Pvi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IuQ-3b-cBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2890" y="124"/>
+            <point key="canvasLocation" x="2888.8000000000002" y="123.68815592203899"/>
         </scene>
         <!--Time Selector-->
         <scene sceneID="keD-ih-1lw">
@@ -555,7 +563,7 @@
                                 </state>
                                 <connections>
                                     <action selector="nextBtnPressed:" destination="PlC-1X-SmE" eventType="touchUpInside" id="H1p-p2-t7L"/>
-                                    <segue destination="iQg-Y9-69H" kind="presentation" modalPresentationStyle="overCurrentContext" id="GcU-bA-tXO"/>
+                                    <segue destination="j1I-Fx-6UE" kind="unwind" unwindAction="backFromCreatedEventWithSegue:" id="Wgs-4w-CFQ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="doR-tZ-Fbi">
@@ -593,8 +601,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LuV-jt-I4i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="j1I-Fx-6UE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3714" y="114"/>
+            <point key="canvasLocation" x="5751" y="124"/>
         </scene>
         <!--Create New Group Name-->
         <scene sceneID="fr8-GK-hkI">
@@ -754,7 +763,7 @@
                                     <color key="titleColor" red="0.99215686274509807" green="0.37647058823529411" blue="0.32941176470588235" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="kwL-NW-1mM" kind="presentation" modalPresentationStyle="overCurrentContext" id="tYe-aA-g5m"/>
+                                    <segue destination="PlC-1X-SmE" kind="presentation" id="3oX-w2-nPQ"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gA2-Mg-V5j">
@@ -824,11 +833,12 @@
                         <outlet property="addressBtn" destination="u0V-e8-480" id="c8Z-Uc-cK8"/>
                         <outlet property="mapPin" destination="oCE-c5-ujH" id="mnG-Ho-NXf"/>
                         <outlet property="mapView" destination="9RM-TN-sCK" id="Jbi-oc-fN8"/>
+                        <outletCollection property="nextBtn" destination="u0V-e8-480" collectionClass="NSMutableArray" id="u4X-ay-4EP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uVA-J3-BAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4597.6000000000004" y="113.79310344827587"/>
+            <point key="canvasLocation" x="4743" y="124"/>
         </scene>
         <!--Invite People View Controller-->
         <scene sceneID="CqI-wn-oZH">
@@ -908,7 +918,7 @@
                                 </state>
                                 <connections>
                                     <action selector="createEventButtonPressed:" destination="kwL-NW-1mM" eventType="touchUpInside" id="3QS-jZ-gae"/>
-                                    <segue destination="1uk-be-IAL" kind="unwind" identifier="backToFeedAndGroups" unwindAction="backFromCreatedEventWithSegue:" id="9ai-xO-RoG"/>
+                                    <segue destination="iQg-Y9-69H" kind="presentation" id="MS5-su-aY8"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -937,9 +947,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zm2-3L-cB1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="1uk-be-IAL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5604" y="114"/>
+            <point key="canvasLocation" x="3726" y="124"/>
         </scene>
     </scenes>
     <resources>
