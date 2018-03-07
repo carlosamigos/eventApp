@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import FirebaseDatabase
-import FBSDKCoreKit
-import FirebaseAuth
+
 
 var selectedFriends = [facebookFriend]()
 var selectedFriendsIds = [String]()
@@ -23,8 +21,8 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     @IBOutlet public weak var nextBtn: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var inviteFriendsLabel: UILabel!
-    private var ref: DatabaseReference!
     var panGestureRecognizer: UIPanGestureRecognizer!
+    var inCreationEvent: InCreationEvent?
 
     
     let friendsString = "friends"
@@ -48,7 +46,6 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         prepareBackButton()
         collectionV.showsHorizontalScrollIndicator = false
-        ref = Database.database().reference()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(invitePeopleViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         collectionV.dataSource = self
@@ -136,8 +133,6 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
             custom = collectionV.dequeueReusableCell(withReuseIdentifier: "groupsCustomCell", for: indexPath) as! groupsCustomCollectionCell
             groupClassRef = custom as! groupsCustomCollectionCell
         }
-        
-        
         return custom
     }
     
@@ -187,69 +182,18 @@ class invitePeopleViewController: UIViewController, UICollectionViewDelegate, UI
     }
 
     @IBAction func createEventButtonPressed(_ sender: AnyObject) {
-        let myGroup = DispatchGroup()
-        let key = self.ref.child("eventInfo").childByAutoId().key
-        let uid = Auth.auth().currentUser?.uid
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = ""
-        let convertedDate = dateFormatter.string(from: dateFromChooseDay)
-        let postEventInfo = ["name":self.titleFromPrevView as String,"creator":uid!,"time":"\(convertedDate) \(self.hourMin)","weekday": self.weekday,"address": address, "latitute": lati, "longitude": longi,"numberAttending": 1, "description": "Description of the event"] as [String : Any]
         
-        var postEventMembers = [uid!:"IN"] as [String : Any]
-        let postPrivate = ["name":self.titleFromPrevView as String,"creator":uid!,"time":"\(convertedDate) \(self.hourMin)", "weekday": self.weekday,"address": address, "latitute": lati, "longitude": longi,"description": description] as [String : Any]
         
-        var childUpdates = ["/user-events/\(uid!)/\(key)/": postPrivate]
-        
-        //Find friends that are invited
-        var allFriends = [facebookFriend]()
-        var facebookIDSet = Set<String>()
-        for friend in selectedFriends{
-            allFriends.append(friend)
-            facebookIDSet.insert(friend.facebookID)
-        }
-        for group in selectedGroups{
-            for firebaseIdofFriendToAdd in group.groupMemberFirebaseIDs{
-                if let faceId = firebaseIDtoFacebookID[firebaseIdofFriendToAdd]{
-                    if let faceBookFriend = facebookIDtoFacebookFriendMap[faceId]{
-                        // check if facebook friend is in list:
-                        if(!facebookIDSet.contains(faceId)){
-                            allFriends.append(faceBookFriend)
-                            facebookIDSet.insert(faceBookFriend.facebookID)
-                        }
-                    }
-                }
-            }
-        }
-        
-        //Invite all friends
-        for invitedFriend in allFriends{
-            myGroup.enter()
-        
-            //if this fails, the user has not registered in the app yet
-            self.ref.child("facebookUser/\(invitedFriend.facebookID!)").observeSingleEvent(of: .value, with: { (snapshot) in
-                let value = snapshot.value as? NSDictionary
-                if (value?.allKeys.count)! > 0{
-                    //update eventMembers and user-events
-                    postEventMembers["\((value?["firebaseID"])!)"] = "NA"
-                    
-                    //add to childUpdates: "/user-events/\(uid!)/\(key)/": postPrivate
-                   
-                    childUpdates["/user-events/\((value?["firebaseID"])!)/\(key)/"] = postPrivate
-                }
-                myGroup.leave()
-            })
-            
-        }
-        
-        myGroup.notify(queue: DispatchQueue.main, execute: {
-            childUpdates["/eventInfo/\(key)"] = postEventInfo
-            childUpdates["/eventMembers/\(key)"] = postEventMembers
-            self.ref.updateChildValues(childUpdates)
-        })
-        resetSelectedFriendsAndGroups(tripleFriendsClassRef: self.tripleFriendsClassRef)
-        UIApplication.shared.setStatusBarHidden(false, with: .fade)
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        inCreationEvent?.tripleFriendsClassRef = self.tripleFriendsClassRef
+        let secondVC: locationSelector = segue.destination as! locationSelector
+        secondVC.inCreationEvent = self.inCreationEvent
+    }
+    
+   
     
     func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
         let translation = gesture.translation(in: view)

@@ -13,20 +13,24 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
     
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var durationPicker: UIPickerView!
+    var inCreationEvent: InCreationEvent?
     
     var pickerData: Array<String> = ["Today","Tomorrow"]
     var weekdays = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    var durations = ["15 min", "30 min", "45 min", "1 hour", "1.5 hours", "2 hours", "2.5 hours", "3 hours", "3.5 hours", "4 hours", "5 hours", "6 hours", "7 hours", "8 hours", "9 hours", "10 hours"]
+    var minuteDurations = [15, 30, 45, 60, 90, 120, 150, 180, 210, 240, 300, 360, 420, 480, 540, 600]
     var todaysWeekday: String = ""
-    var eventTitle: String = ""
+    var durationChosen = 15
     var panGestureRecognizer: UIPanGestureRecognizer!
 
-     let ref = Database.database().reference()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.dataSource = self
         picker.delegate = self
-        fixPickerData()
+        durationPicker.dataSource = self
+        durationPicker.delegate = self
+        fixDayPickerData()
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(draggablePanGestureAction))
         self.view.addGestureRecognizer(panGestureRecognizer)
     }
@@ -47,7 +51,6 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
         dateFormatter.dateFormat = "EEEE"
         dateFormatter.locale = NSLocale.current
         for i in 0...6{
-            
             let convertedDate = dateFormatter.string(from: date as Date).localizedCapitalized
             returnList.append(convertedDate)
             date = date.addingTimeInterval(hoursToAddInSeconds)
@@ -56,7 +59,7 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
     }
 
     
-    func fixPickerData(){
+    func fixDayPickerData(){
         let currentDate = NSDate()
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale.current
@@ -80,16 +83,14 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
         }
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let secondVC: timeSelector = segue.destination as! timeSelector
-        if let weekday = self.nextButton.titleLabel?.text {
-            let dato = getDateFromWeekday(weekday: weekday)
-            secondVC.dateFromChooseDay = dato
-            secondVC.titleFromPrevView = self.eventTitle
-            secondVC.weekday = weekday
-        }
-        
+        let weekday = self.nextButton.titleLabel?.text
+        let date = getDateFromWeekday(weekday: weekday!)
+        inCreationEvent?.date = date
+        inCreationEvent?.weekDay = weekday
+        inCreationEvent?.duration = self.durationChosen
+        let secondVC: invitePeopleViewController = segue.destination as! invitePeopleViewController
+        secondVC.inCreationEvent = self.inCreationEvent
     }
     
     func getDateFromWeekday(weekday: String) -> Date {
@@ -119,24 +120,61 @@ class chooseDay: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.pickerData.count
+        if (pickerView.tag == 1){
+            return self.pickerData.count
+        }else if (pickerView.tag == 2){
+            return self.durations.count
+        }else {
+            return 0
+        }
+        
     }
 
     //MARK: Delegates
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?{
-        return pickerData[row]
+        if (pickerView.tag == 1){
+            return pickerData[row]
+        }else if (pickerView.tag == 2){
+            return self.durations[row]
+        }else {
+            return ""
+        }
+        
+        
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: pickerData[row], attributes: [NSForegroundColorAttributeName : UIColor.white])
-        return attributedString
+        if (pickerView.tag == 1){
+            let attributedString = NSAttributedString(string: pickerData[row], attributes: [NSForegroundColorAttributeName : UIColor.white])
+            return attributedString
+        }else if (pickerView.tag == 2){
+            let attributedString = NSAttributedString(string: durations[row], attributes: [NSForegroundColorAttributeName : UIColor.white])
+            return attributedString
+        }else {
+            let attributedString = NSAttributedString(string: "", attributes: [NSForegroundColorAttributeName : UIColor.white])
+            return attributedString
+        }
+        
+        
     }
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        nextButton.setTitle(pickerData[row], for: UIControlState.normal)
+        if (pickerView.tag == 1){
+            nextButton.setTitle(pickerData[row], for: UIControlState.normal)
+        }else if (pickerView.tag == 2){
+            self.durationChosen = minuteDurations[row]
+        }else {
+            return 
+        }
+        
+        
     }
+    
+    
+    
+    
     
     func draggablePanGestureAction(_ gesture: UIPanGestureRecognizer){
         let translation = gesture.translation(in: view)
